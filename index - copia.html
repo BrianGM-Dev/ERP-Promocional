@@ -4,18 +4,11 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ERPEmprendedor CITE MADERA — Gestión de Mueblería y Madera, Gratis</title>
-  <!-- Preconnect CDNs -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin/>
-  <link rel="preconnect" href="https://images.unsplash.com" crossorigin/>
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-  <!-- Tailwind (CDN JIT — no se puede servir local) -->
-  <script src="https://cdn.tailwindcss.com" defer></script>
-  <!-- GSAP + ScrollTrigger (local — elimina render-blocking CDN) -->
-  <script src="js/gsap.min.js" defer></script>
-  <script src="js/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <!-- Fallback: si JS no carga, el hero-visual no queda invisible -->
   <noscript><style>.hero-visual{opacity:1!important}</style></noscript>
 
@@ -977,6 +970,8 @@
 
 <!-- ═══ HERO ═══ -->
 <section id="hero-section" style="background:var(--bg);position:relative;overflow:hidden">
+  <!-- Fondo doodle carpintería — patrón repetido a 45° -->
+  <div id="doodle-bg" style="position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:url('img/fondo-doodle.png') repeat;background-size:600px;transform:rotate(45deg);opacity:0;pointer-events:none;z-index:0;filter:invert(1);transition:opacity .4s ease"></div>
   <div id="hero">
 
     <!-- Abstract SVG overlay lines -->
@@ -1001,7 +996,7 @@
         </svg>
       </div>
 
-      <div class="hero-free-badge">100% Gratuito, para siempre</div>
+      <div class="hero-free-badge" id="doodle-toggle" style="cursor:pointer;user-select:none" title="Click para ocultar/mostrar el fondo">100% Gratuito, para siempre</div>
 
       <h1 class="hero-title">
         <span class="line"><span class="word">El</span> <span class="word">sistema</span> <span class="word">para</span> <span class="word">el</span></span>
@@ -1030,9 +1025,9 @@
         <div class="hero-sponsor">
           <span class="hero-sponsor-label">Respaldado por</span>
           <div class="hero-sponsor-sep"></div>
-          <img src="img/logo-cite-madera.svg" alt="CITE Madera y del Mueble" width="120" height="38"/>
+          <img src="img/logo-cite-madera.svg" alt="CITE Madera y del Mueble"/>
           <div class="hero-sponsor-sep"></div>
-          <img src="img/logo-itp.svg" alt="ITP — Instituto Tecnológico de la Producción" width="200" height="38"/>
+          <img src="img/logo-itp.svg" alt="ITP — Instituto Tecnológico de la Producción"/>
         </div>
       </div>
 
@@ -1138,7 +1133,7 @@
       </div>
       <!-- Carpenter character -->
       <div class="hero-carp-wrap">
-        <img src="img/carpintero.png" alt="Maestro carpintero señalando el sistema ERP" width="280" height="424" loading="lazy"/>
+        <img src="img/carpintero.png" alt="Maestro carpintero señalando el sistema ERP"/>
       </div>
     </div>
   </div>
@@ -1638,10 +1633,10 @@
 
         <!-- Photo -->
         <div class="emp-photo-wrap">
-          <img class="emp-photo-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=85" alt="Emprendedor del sector madera y muebles" width="900" height="600" loading="lazy"/>
+          <img class="emp-photo-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=85" alt="Emprendedor del sector madera y muebles"/>
           <div class="emp-photo-overlay"></div>
           <div class="emp-stamp">
-            <img src="img/logo-itp.svg" alt="ITP" width="93" height="28" style="height:28px;width:auto;filter:brightness(2) grayscale(1)"/>
+            <img src="img/logo-itp.svg" alt="ITP" style="height:28px;width:auto;filter:brightness(2) grayscale(1)"/>
             <div>
               <div class="emp-stamp-t">Respaldado por</div>
               <div class="emp-stamp-n">CITE Madera y del Mueble</div>
@@ -1739,9 +1734,9 @@
   <div style="max-width:1200px;margin:40px auto 0;padding:32px 48px 0;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;position:relative;z-index:1">
     <span style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#FFFFFF">Auspiciado por</span>
     <div style="width:1px;height:24px;background:rgba(255,255,255,.1)"></div>
-    <img src="img/logo-cite-madera.svg" alt="CITE Madera y del Mueble" width="132" height="42" class="footer-logo"/>
+    <img src="img/logo-cite-madera.svg" alt="CITE Madera y del Mueble" class="footer-logo"/>
     <div style="width:1px;height:24px;background:rgba(255,255,255,.1)"></div>
-    <img src="img/logo-itp.svg" alt="ITP" width="127" height="38" class="footer-logo"/>
+    <img src="img/logo-itp.svg" alt="ITP" class="footer-logo"/>
   </div>
 
   <div class="footer-bottom">
@@ -1755,7 +1750,6 @@
 </footer>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
 gsap.registerPlugin(ScrollTrigger);
 
 // ── HERO ENTRANCE (directo, sin preloader) ──
@@ -1921,6 +1915,22 @@ gsap.utils.toArray('.fp2').forEach((pill, i) => {
   );
 });
 
+// ── DOODLE TOGGLE ──────────────────────────
+(function() {
+  const toggle = document.getElementById('doodle-toggle');
+  const doodle = document.getElementById('doodle-bg');
+  const secBtn = document.querySelector('.btn-hero-secondary');
+  if (!toggle || !doodle) return;
+  let visible = false;
+  toggle.addEventListener('click', () => {
+    visible = !visible;
+    doodle.style.opacity = visible ? '0.07' : '0';
+    if (secBtn) {
+      secBtn.style.background = visible ? 'rgba(250,248,245,.92)' : '';
+    }
+  });
+})();
+
 // ── HAMBURGER ────────────────────────────────
 (function() {
   const hamburger   = document.getElementById('nav-hamburger');
@@ -1944,7 +1954,6 @@ gsap.utils.toArray('.fp2').forEach((pill, i) => {
   navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 })();
-}); // DOMContentLoaded
 </script>
 </body>
 </html>
