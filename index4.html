@@ -1,0 +1,2502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ERPEmprendedor CITE MADERA — Gestión de Mueblería y Madera, Gratis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Fallback: si JS no carga, el hero-visual no queda invisible -->
+  <noscript><style>.hero-visual{opacity:1!important}</style></noscript>
+
+  <style>
+    :root {
+      --bg:      #FAF8F5;
+      --bg2:     #EDE6D9;
+      --dark:    #0D1B2A;
+      --text:    #1E2A38;
+      --muted:   #6B7A8D;
+      --gold:    #C4902E;
+      --green:   #2A7250;
+      --border:  rgba(196,144,46,.15);
+      --shadow:  0 2px 24px rgba(13,27,42,.1);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;font-size:16px}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+    /* ── NAV ── */
+    #nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      padding:20px 48px;
+      display:flex;align-items:center;justify-content:center;
+      transition:background .4s ease, padding .4s ease, box-shadow .4s ease;
+      opacity:0;
+    }
+    #nav.scrolled{
+      background:rgba(250,248,245,.96);
+      backdrop-filter:blur(24px);
+      padding:13px 48px;
+      border-bottom:1px solid var(--border);
+      box-shadow:0 2px 24px rgba(13,27,42,.09);
+    }
+    .nav-links{display:flex;align-items:center;gap:0}
+    .nav-links a{
+      font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;
+      transition:color .2s;letter-spacing:.3px;padding:8px 18px;
+      position:relative;
+    }
+    .nav-links a::after{
+      content:'';position:absolute;bottom:2px;left:18px;right:18px;
+      height:1.5px;background:var(--gold);
+      transform:scaleX(0);transform-origin:center;
+      transition:transform .25s ease;border-radius:2px;
+    }
+    .nav-links a:hover{color:var(--dark)}
+    .nav-links a:hover::after{transform:scaleX(1)}
+    /* Hamburger absolute right on mobile */
+    .nav-hamburger-wrap{position:absolute;right:24px;top:50%;transform:translateY(-50%)}
+
+    /* ── HAMBURGER ── */
+    .nav-hamburger{display:none;width:38px;height:38px;border:none;background:none;cursor:pointer;flex-direction:column;justify-content:center;align-items:center;gap:5.5px;padding:4px;border-radius:8px;transition:background .2s}
+    .nav-hamburger:hover{background:var(--bg2)}
+    .nav-hamburger span{display:block;width:22px;height:1.5px;background:var(--dark);border-radius:2px;transition:all .32s ease}
+    .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+    .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    /* Mobile overlay */
+    .nav-mobile{display:none;position:fixed;inset:0;z-index:98;background:var(--bg);flex-direction:column;justify-content:center;padding:0 48px}
+    .nav-mobile.open{display:flex}
+    .nav-mobile-links{display:flex;flex-direction:column;gap:0}
+    .nav-mobile-links a{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;line-height:1;color:var(--dark);text-decoration:none;padding:20px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;transition:color .2s}
+    .nav-mobile-links a:hover{color:var(--gold)}
+    .nav-mobile-links a::after{content:'→';font-size:22px;color:var(--gold);opacity:0;transition:opacity .2s}
+    .nav-mobile-links a:hover::after{opacity:1}
+    .nav-mobile-cta{margin-top:40px;display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:var(--dark);color:var(--bg);font-size:15px;font-weight:600;border-radius:50px;text-decoration:none;align-self:flex-start;transition:background .25s}
+    .nav-mobile-cta:hover{background:var(--gold)}
+    .nav-mobile-close{position:absolute;top:24px;right:28px;width:38px;height:38px;border:none;background:none;cursor:pointer;font-size:22px;color:var(--muted);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:color .2s}
+    .nav-mobile-close:hover{color:var(--dark)}
+
+    /* ── HERO SPONSOR ── */
+    .hero-sponsor{
+      display:flex;align-items:center;gap:20px;margin-top:36px;flex-wrap:wrap;
+      background:rgba(250,248,245,.92);border:1px solid rgba(196,144,46,.22);
+      border-radius:14px;padding:18px 26px;
+      box-shadow:0 4px 20px rgba(13,27,42,.06);
+      backdrop-filter:blur(8px);
+    }
+    .hero-sponsor-label{font-size:10.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dark);white-space:nowrap;opacity:.6}
+    .hero-sponsor-sep{width:1px;height:28px;background:rgba(196,144,46,.25);flex-shrink:0}
+    .hero-sponsor img{height:38px;width:auto;opacity:.9;transition:all .25s}
+    .hero-sponsor img:hover{opacity:1;transform:scale(1.04)}
+
+    /* ── HERO ── */
+    #hero{
+      min-height:100vh;padding:120px 48px 80px;
+      display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+      max-width:1280px;margin:0 auto;position:relative;
+    }
+    /* Location/target badge */
+    .hero-target-badge{
+      display:inline-flex;align-items:center;gap:10px;
+      background:rgba(196,144,46,.08);border:1px solid rgba(196,144,46,.22);
+      color:var(--gold);font-size:11px;font-weight:700;letter-spacing:1.8px;
+      text-transform:uppercase;padding:7px 16px;border-radius:50px;margin-bottom:16px;
+    }
+    .hero-target-badge svg{flex-shrink:0}
+    .hero-eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;
+      color:var(--gold);margin-bottom:28px;
+    }
+    .hero-eyebrow::before{content:'';width:20px;height:1px;background:var(--gold)}
+    .hero-title{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(42px,4.8vw,68px);
+      font-weight:700;line-height:1.1;
+      color:var(--dark);margin-bottom:16px;
+      overflow:hidden;
+    }
+    .hero-title .line{display:block;overflow:hidden}
+    .hero-title .word{display:inline-block}
+    .hero-title em{font-style:italic;color:var(--gold)}
+    .hero-free-badge{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#EDFAF3;border:1px solid rgba(42,114,80,.2);
+      color:var(--green);font-size:13px;font-weight:600;
+      padding:7px 16px;border-radius:50px;margin-bottom:24px;
+    }
+    .hero-free-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.8s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+    .hero-sub{font-size:17px;line-height:1.72;color:var(--muted);max-width:490px;margin-bottom:40px}
+    /* Contenedor: ancho fijo = ancho natural del botón primario, sin reflow */
+    .hero-actions{
+      display:flex;flex-direction:column;align-items:stretch;
+      gap:12px;margin-bottom:36px;width:fit-content;
+    }
+    /* PRIMARY CTA */
+    .btn-hero-primary{
+      display:inline-flex;align-items:center;
+      padding:20px 52px;background:var(--dark);color:#FAF8F5;
+      font-size:17px;font-weight:700;border-radius:50px;text-decoration:none;
+      letter-spacing:.2px; /* fijo — no cambia en hover para evitar reflow */
+      box-shadow:0 6px 32px rgba(13,27,42,.25),inset 0 1px 0 rgba(255,255,255,.08);
+      position:relative;overflow:hidden;
+      /* solo propiedades composited: transform y box-shadow */
+      transition:transform .38s cubic-bezier(.22,1,.36,1), box-shadow .38s ease;
+      will-change:transform;
+    }
+    /* Capa dorada que se revela */
+    .btn-hero-primary::before{
+      content:'';position:absolute;inset:0;border-radius:inherit;
+      background:linear-gradient(135deg,#D4A030 0%,#C4902E 55%,#A8781A 100%);
+      opacity:0;transition:opacity .38s ease;
+    }
+    /* Destello de brillo */
+    .btn-hero-primary::after{
+      content:'';position:absolute;top:0;left:-120%;width:55%;height:100%;
+      background:linear-gradient(105deg,transparent,rgba(255,255,255,.32),transparent);
+      transform:skewX(-18deg);pointer-events:none;
+    }
+    .btn-hero-primary:hover{
+      box-shadow:0 0 64px rgba(196,144,46,.48),0 18px 52px rgba(196,144,46,.28),
+                 inset 0 1px 0 rgba(255,255,255,.25);
+    }
+    .btn-hero-primary:hover::before{opacity:1}
+    .btn-hero-primary:hover::after{animation:gold-shine .6s ease-out forwards}
+    @keyframes gold-shine{to{left:130%}}
+    .btn-hero-primary-inner{position:relative;z-index:1;display:inline-flex;align-items:center;gap:12px;width:100%;justify-content:center}
+    .btn-hero-arrow{display:inline-flex;align-items:center;transition:transform .38s}
+    .btn-hero-primary:hover .btn-hero-arrow{transform:translateX(5px)}
+    /* SECONDARY */
+    .btn-hero-secondary{
+      display:inline-flex;align-items:center;justify-content:center;gap:11px;
+      padding:15px 26px;color:var(--text);
+      font-size:15px;font-weight:500;border-radius:50px;text-decoration:none;
+      border:1.5px solid rgba(13,27,42,.14);background:transparent;
+      /* solo propiedades composited */
+      transition:border-color .28s ease, color .28s ease,
+                 background .28s ease, box-shadow .28s ease;
+      will-change:transform;
+    }
+    .btn-hero-secondary:hover{
+      border-color:var(--gold);
+      background:#F5EDE4;
+      color:var(--dark);
+      box-shadow:0 6px 24px rgba(196,144,46,.18);
+    }
+    .btn-hero-secondary:hover .btn-play-wrap{
+      background:var(--gold);
+      color:#FAF8F5;
+    }
+    .btn-play-wrap{
+      width:34px;height:34px;border-radius:50%;
+      background:var(--dark);color:#FAF8F5;
+      display:inline-flex;align-items:center;justify-content:center;font-size:11px;
+      flex-shrink:0;transition:all .28s;
+    }
+    .btn-hero-secondary:hover .btn-play-wrap{background:var(--gold)}
+    .btn-dark{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:13px 28px;background:var(--dark);color:#FAF8F5;
+      font-size:14px;font-weight:600;border-radius:50px;text-decoration:none;
+      transition:all .3s;letter-spacing:.2px;
+    }
+    .btn-dark:hover{background:var(--gold);transform:translateY(-2px);box-shadow:0 8px 24px rgba(196,144,46,.25)}
+    .btn-outline{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:12px 24px;border:1.5px solid var(--border);
+      color:var(--text);font-size:14px;font-weight:500;
+      border-radius:50px;text-decoration:none;transition:all .3s;
+    }
+    .btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-1px)}
+    .hero-trust{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:12.5px}
+    .hero-trust-dot{width:3px;height:3px;border-radius:50%;background:var(--border);display:inline-block;margin:0 4px}
+    /* Carpenter character — wrapper con sombra de contacto */
+    .hero-carp-wrap{
+      position:absolute;bottom:-110px;right:-187px;
+      width:280px;z-index:5;pointer-events:none;
+    }
+    /* Sombra elíptica en los pies — da sensación de que está parado sobre una superficie */
+    .hero-carp-wrap::after{
+      content:'';position:absolute;bottom:18px;left:50%;
+      transform:translateX(-50%);
+      width:72%;height:18px;
+      background:radial-gradient(ellipse at center,rgba(13,27,42,.22) 0%,transparent 70%);
+      border-radius:50%;filter:blur(7px);
+    }
+    .hero-carp-wrap img{
+      width:100%;display:block;
+      filter:drop-shadow(0 20px 48px rgba(0,0,0,.13));
+    }
+    /* Módulos label tooltip */
+    .sidebar-modules-label{
+      position:absolute;left:64px;top:50%;transform:translateY(-50%);
+      background:var(--dark);color:#FAF8F5;
+      font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+      padding:5px 10px;border-radius:6px;white-space:nowrap;pointer-events:none;
+      opacity:0;z-index:10;
+    }
+    .sidebar-modules-label::before{
+      content:'';position:absolute;left:-5px;top:50%;transform:translateY(-50%);
+      border:5px solid transparent;border-right-color:var(--dark);border-left:none;
+    }
+    /* Float cards — más notorias */
+    @keyframes float-bob-a{0%,100%{transform:translateY(0px)}50%{transform:translateY(-9px)}}
+    @keyframes float-bob-b{0%,100%{transform:translateY(-5px)}50%{transform:translateY(5px)}}
+
+    /* Hero SVG overlay */
+    .hero-svg-overlay{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+
+    /* HERO VISUAL — CSS "screenshot" */
+    .hero-visual{position:relative;opacity:0;z-index:1}
+    .screen-chrome{
+      background:white;border-radius:16px;
+      box-shadow:0 24px 64px rgba(13,27,42,.14),0 0 0 1px rgba(13,27,42,.07);
+      overflow:hidden;
+    }
+    .screen-bar{
+      background:#F5F2EE;padding:10px 14px;
+      display:flex;align-items:center;gap:8px;
+      border-bottom:1px solid rgba(13,27,42,.06);
+    }
+    .s-dot{width:10px;height:10px;border-radius:50%}
+    .s-url{flex:1;background:white;border-radius:6px;padding:4px 12px;font-size:10px;color:#9E8E7E;font-family:monospace}
+    .screen-body{display:flex;height:clamp(280px,40vh,380px)}
+    .s-sidebar{
+      width:56px;background:#0D1B2A;padding:14px 0;
+      display:flex;flex-direction:column;align-items:center;gap:10px;flex-shrink:0;
+    }
+    .s-icon{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-size:13px}
+    .s-icon.on{background:var(--gold);font-size:14px}
+    .s-main{flex:1;padding:20px;overflow:hidden;background:#FAFAF8}
+    .s-topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .s-title-bar{font-size:14px;font-weight:700;color:var(--dark)}
+    .s-date{font-size:10px;color:var(--muted)}
+    .s-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+    .s-kpi{background:white;border-radius:10px;padding:10px 12px;border:1px solid rgba(13,27,42,.07);box-shadow:0 1px 4px rgba(13,27,42,.04)}
+    .s-kpi-v{font-size:17px;font-weight:700;color:var(--dark)}
+    .s-kpi-l{font-size:9px;color:var(--muted);margin-top:2px}
+    .s-kpi-delta{font-size:9px;margin-top:4px;font-weight:600}
+    .s-chart-wrap{background:white;border-radius:10px;padding:14px;border:1px solid rgba(13,27,42,.06);margin-bottom:12px}
+    .s-chart-head{font-size:10px;font-weight:600;color:var(--muted);margin-bottom:12px;display:flex;justify-content:space-between}
+    .s-bars{display:flex;align-items:flex-end;gap:6px;height:80px}
+    .s-bar{border-radius:4px 4px 0 0;flex:1;transition:height 1.5s cubic-bezier(.16,1,.3,1)}
+    .s-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .s-card{background:white;border-radius:10px;padding:12px;border:1px solid rgba(13,27,42,.06)}
+    .s-card-t{font-size:9px;font-weight:600;color:var(--muted);margin-bottom:8px}
+    .s-list-item{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(13,27,42,.04);font-size:9.5px;color:var(--text)}
+    .s-list-item:last-child{border:none}
+    .s-badge{font-size:8px;font-weight:600;padding:2px 7px;border-radius:50px}
+    /* Floating info cards */
+    .float-card{
+      position:absolute;background:white;border-radius:16px;
+      padding:16px 22px;
+      box-shadow:0 16px 56px rgba(13,27,42,.18),0 2px 8px rgba(13,27,42,.08);
+      border:1px solid rgba(196,144,46,.12);
+    }
+    .float-card-a{animation:float-bob-a 3.6s ease-in-out infinite}
+    .float-card-b{animation:float-bob-b 4.2s ease-in-out .4s infinite}
+    .float-card .fc-val{font-size:24px;font-weight:700;color:var(--dark);font-family:'Cormorant Garamond',serif}
+    .float-card .fc-lbl{font-size:11.5px;color:var(--muted);margin-top:3px}
+    .float-card .fc-trend{font-size:11.5px;font-weight:600;margin-top:7px}
+
+    /* ── TICKER ── */
+    .ticker{
+      background:#0D1B2A;padding:15px 0;overflow:hidden;
+    }
+    .ticker-track{display:flex;animation:ticker 20s linear infinite;white-space:nowrap}
+    .ticker-track span{padding:0 28px;font-size:12px;font-weight:500;color:rgba(250,248,245,.78);letter-spacing:1.5px;text-transform:uppercase}
+    .ticker-track .dot{color:var(--gold);padding:0 4px}
+    @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    /* ── SECTION HELPERS ── */
+    .wrap{max-width:1200px;margin:0 auto;padding:0 48px}
+    .sec{padding:110px 0}
+    .eyebrow{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;margin-bottom:20px}
+    .eyebrow::before{content:'';width:20px;height:1px;background:var(--gold)}
+    .display-title{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(34px,3.8vw,58px);font-weight:700;line-height:1.1;color:var(--dark);
+    }
+    .display-title em{font-style:italic;color:var(--gold)}
+    .body-text{font-size:17px;line-height:1.75;color:var(--muted)}
+    .reveal{opacity:0;transform:translateY(36px)}
+
+    /* Section gold divider */
+    .gold-divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.25;margin:0}
+
+    /* ── PROCESO ── */
+    .process-grid{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+      border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-top:56px;
+    }
+    .p-step{
+      padding:36px 28px;border-right:1px solid var(--border);
+      position:relative;transition:background .3s;
+    }
+    .p-step:last-child{border-right:none}
+    .p-step:hover{background:white}
+    .p-num-wrap{
+      position:relative;width:64px;height:64px;margin-bottom:20px;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .p-num-ring{
+      position:absolute;inset:0;border-radius:50%;
+      border:1.5px solid rgba(196,144,46,.22);
+    }
+    .p-num{
+      font-family:'Cormorant Garamond',serif;
+      font-size:28px;font-weight:700;color:rgba(196,144,46,.55);
+      line-height:1;position:relative;z-index:1;
+    }
+    .p-icon{font-size:28px;margin-bottom:16px;display:block}
+    .p-title{font-size:16px;font-weight:700;color:var(--dark);margin-bottom:10px}
+    .p-desc{font-size:13.5px;line-height:1.65;color:var(--muted)}
+    .p-arrow{
+      position:absolute;top:36px;right:-13px;z-index:2;
+      width:26px;height:26px;border-radius:50%;
+      background:var(--bg2);border:1px solid var(--border);
+      display:flex;align-items:center;justify-content:center;
+      color:var(--gold);font-size:11px;
+    }
+
+    /* ── FEATURES (Notion-style alternating) ── */
+    .feature-block{
+      display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+      padding:80px 0;border-bottom:1px solid var(--border);
+    }
+    .feature-block:last-child{border-bottom:none}
+    .feature-block.reverse{direction:rtl}
+    .feature-block.reverse > *{direction:ltr}
+    .feat-label{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .feat-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3vw,44px);font-weight:700;line-height:1.15;color:var(--dark);margin-bottom:18px}
+    .feat-title em{font-style:italic;color:var(--gold)}
+    .feat-desc{font-size:16px;line-height:1.75;color:var(--muted);margin-bottom:28px}
+    .feat-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+    .feat-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text);line-height:1.6}
+    .feat-list li::before{content:'→';color:var(--gold);font-weight:600;flex-shrink:0;margin-top:1px}
+
+    /* Feature UI mockups */
+    .feat-ui{
+      background:white;border-radius:20px;
+      border:1px solid rgba(13,27,42,.09);
+      box-shadow:var(--shadow);overflow:hidden;
+    }
+    .feat-ui-header{
+      padding:14px 20px;border-bottom:1px solid rgba(13,27,42,.07);
+      display:flex;align-items:center;justify-content:space-between;
+      background:#FAFAF8;
+    }
+    .feat-ui-title{font-size:12px;font-weight:600;color:var(--text)}
+    .feat-ui-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:50px;background:#EDFAF3;color:var(--green)}
+    .feat-ui-body{padding:20px}
+    /* Table mock */
+    .mock-table{width:100%;border-collapse:collapse}
+    .mock-table th{font-size:10px;font-weight:600;color:var(--muted);text-align:left;padding:0 0 10px;border-bottom:1px solid var(--border);letter-spacing:.5px}
+    .mock-table td{font-size:12px;color:var(--text);padding:10px 0;border-bottom:1px solid rgba(13,27,42,.04)}
+    .mock-table tr:last-child td{border:none}
+    .tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px}
+    .tag-ok{background:#EDFAF3;color:#2A7250}
+    .tag-warn{background:#FFF7ED;color:#B45309}
+    .tag-red{background:#FEF2F2;color:#B91C1C}
+    /* Chart mock */
+    .mini-chart{display:flex;align-items:flex-end;gap:4px;height:64px;padding:0 4px}
+    .mc-bar{border-radius:3px 3px 0 0;flex:1}
+    /* KPI comparison */
+    .kpi-compare{display:flex;flex-direction:column;gap:12px}
+    .kpi-row{display:flex;align-items:center;gap:12px}
+    .kpi-label{font-size:12px;color:var(--muted);width:110px;flex-shrink:0}
+    .kpi-track{flex:1;height:6px;background:rgba(13,27,42,.07);border-radius:3px;overflow:hidden}
+    .kpi-fill{height:100%;border-radius:3px;transition:width 1.5s cubic-bezier(.16,1,.3,1)}
+    .kpi-val{font-size:12px;font-weight:600;color:var(--dark);width:36px;text-align:right;flex-shrink:0}
+    /* Kanban mock */
+    .kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .k-col-title{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    .k-col-title::before{content:'';width:8px;height:8px;border-radius:2px}
+    .k-card{background:var(--bg);border-radius:8px;padding:10px;border:1px solid var(--border);margin-bottom:8px}
+    .k-card-t{font-size:11px;font-weight:600;color:var(--dark);margin-bottom:6px}
+    .k-card-s{font-size:10px;color:var(--muted)}
+
+    /* ── MÓDULOS GRID (existing light section) ── */
+    .modules-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+      background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;
+      margin-top:56px;
+    }
+    .mod-card{
+      background:white;padding:32px 28px;
+      transition:background .25s,box-shadow .25s;cursor:default;
+      position:relative;overflow:hidden;
+    }
+    .mod-card::after{
+      content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,var(--gold),transparent);
+      transform:scaleX(0);transform-origin:left;transition:transform .3s;
+    }
+    .mod-card:hover{background:#FFFBF5;box-shadow:inset 0 0 0 1px rgba(196,144,46,.2)}
+    .mod-card:hover::after{transform:scaleX(1)}
+    .mod-icon{font-size:26px;margin-bottom:16px;display:block}
+    .mod-name{font-size:15px;font-weight:700;color:var(--dark);margin-bottom:7px}
+    .mod-desc{font-size:13px;line-height:1.6;color:var(--muted)}
+
+    /* ── MODULE SHOWCASE (dark section) ── */
+    .mshow-section{
+      background:#0D1B2A;padding:120px 0;
+      position:relative;overflow:hidden;
+    }
+    .mshow-deco-lines{
+      position:absolute;inset:0;pointer-events:none;overflow:hidden;
+    }
+    .mshow-deco-lines::before{
+      content:'';position:absolute;inset:0;
+      background:repeating-linear-gradient(
+        45deg,
+        transparent,transparent 80px,
+        rgba(255,255,255,.03) 80px,rgba(255,255,255,.03) 81px
+      );
+    }
+    .mshow-title{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(34px,3.8vw,58px);font-weight:700;line-height:1.1;
+      color:rgba(250,248,245,.95);margin-bottom:16px;
+    }
+    .mshow-title em{font-style:italic;color:var(--gold)}
+    .mshow-sub{font-size:16px;line-height:1.75;color:rgba(250,248,245,.45);max-width:600px}
+    .mshow-eyebrow{
+      font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;
+      color:var(--gold);display:flex;align-items:center;gap:10px;margin-bottom:20px;
+    }
+    .mshow-eyebrow::before{content:'';width:20px;height:1px;background:var(--gold)}
+    .mshow-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:64px;
+    }
+    .mshow-card{
+      background:rgba(255,255,255,.045);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;padding:30px;
+      position:relative;overflow:hidden;
+      transition:background .3s,border-color .3s,transform .3s,box-shadow .3s;
+      cursor:default;
+    }
+    .mshow-card:hover{
+      background:rgba(255,255,255,.08);
+      border-color:rgba(196,144,46,.3);
+      transform:translateY(-3px);
+      box-shadow:0 16px 40px rgba(0,0,0,.25),0 0 0 1px rgba(196,144,46,.15);
+    }
+    .mshow-card-num{
+      position:absolute;top:16px;right:20px;
+      font-family:'Cormorant Garamond',serif;
+      font-size:42px;font-weight:700;
+      color:rgba(255,255,255,.03);
+      line-height:1;pointer-events:none;
+    }
+    .mshow-icon-wrap{
+      width:48px;height:48px;border-radius:12px;
+      background:rgba(196,144,46,.12);
+      border:1px solid rgba(196,144,46,.2);
+      display:flex;align-items:center;justify-content:center;
+      margin-bottom:18px;flex-shrink:0;
+    }
+    .mshow-name{font-size:15px;font-weight:700;color:rgba(250,248,245,.92);margin-bottom:8px}
+    .mshow-desc{font-size:12.5px;line-height:1.65;color:rgba(250,248,245,.4)}
+
+    /* Deco circles */
+    .deco-ring-1{
+      position:absolute;top:-80px;right:-120px;
+      width:500px;height:500px;border-radius:50%;
+      border:1px solid rgba(196,144,46,.06);
+      pointer-events:none;
+    }
+    .deco-ring-2{
+      position:absolute;top:-20px;left:-40px;
+      width:120px;height:120px;border-radius:50%;
+      border:1px solid rgba(196,144,46,.08);
+      pointer-events:none;
+    }
+    .deco-circle{pointer-events:none}
+
+    /* ── STATS ── */
+    .stats-row{
+      display:grid;grid-template-columns:repeat(4,1fr);
+      border-top:1px solid var(--border);border-left:1px solid var(--border);
+      border-radius:16px;overflow:hidden;
+      box-shadow:var(--shadow);background:white;
+      margin-top:56px;
+    }
+    .stat-cell{
+      padding:40px 32px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+      transition:background .25s;
+    }
+    .stat-cell:hover{background:var(--bg)}
+    .stat-num{
+      font-family:'Cormorant Garamond',serif;
+      font-size:56px;font-weight:700;color:var(--dark);line-height:1;
+    }
+    .stat-label{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.5}
+    .stat-sub{font-size:12px;color:var(--gold);font-weight:600;margin-top:4px}
+
+    /* ── COMPARATIVA ── */
+    .compare-wrap{
+      display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:56px;max-width:900px;margin-left:auto;margin-right:auto;
+    }
+    .cmp-card{border-radius:20px;padding:36px;border:1px solid var(--border)}
+    .cmp-card.bad{background:#FBF8F5;border-color:rgba(196,144,46,.12)}
+    .cmp-card.good{background:white;border-color:rgba(42,114,80,.25);box-shadow:0 4px 32px rgba(42,114,80,.09)}
+    .cmp-head{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+    .cmp-ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
+    .cmp-title{font-size:16px;font-weight:700;color:var(--dark)}
+    .cmp-list{list-style:none;display:flex;flex-direction:column;gap:13px}
+    .cmp-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--muted);line-height:1.5}
+    .cmp-list li b{flex-shrink:0;font-size:15px}
+
+    /* ── MASCOT SECTION ── */
+    .mascot-sec{background:var(--bg);overflow:hidden;padding:80px 0 0}
+    .mascot-wrap{max-width:1100px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:1fr auto;align-items:flex-end;gap:0}
+    .mascot-left{padding-bottom:60px}
+    .mascot-eyebrow{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+    .mascot-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.5vw,44px);font-weight:700;line-height:1.15;color:var(--dark);margin-bottom:32px}
+    .mascot-title em{font-style:italic;color:var(--gold)}
+    /* Browser mockup */
+    .mock-browser{background:#fff;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.13),0 2px 8px rgba(0,0,0,.07);border:1px solid rgba(0,0,0,.07);overflow:hidden;max-width:520px}
+    .mock-browser-bar{background:#F2F2F2;padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #E5E5E5}
+    .mock-browser-dots{display:flex;gap:6px}
+    .mock-browser-dots span{width:11px;height:11px;border-radius:50%;display:inline-block}
+    .mock-browser-dots span:nth-child(1){background:#FF5F57}
+    .mock-browser-dots span:nth-child(2){background:#FEBC2E}
+    .mock-browser-dots span:nth-child(3){background:#28C840}
+    .mock-browser-url{flex:1;background:#fff;border-radius:6px;padding:5px 10px;font-size:11.5px;color:#666;font-family:'Inter',sans-serif;border:1px solid #E0E0E0}
+    .mock-browser-status{font-size:11px;color:#2A7250;font-weight:600;display:flex;align-items:center;gap:5px;white-space:nowrap}
+    .mock-browser-status::before{content:'';width:7px;height:7px;border-radius:50%;background:#2A7250;display:inline-block}
+    .mock-browser-body{padding:20px 20px 16px}
+    .mock-section-title{font-size:13px;font-weight:700;color:#1A1A1A;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+    .mock-section-title span{font-size:11px;color:#999;font-weight:400}
+    .mock-kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+    .mock-kpi{background:#F9F9F9;border-radius:10px;padding:10px 12px;border:1px solid #F0F0F0}
+    .mock-kpi-val{font-size:17px;font-weight:800;color:#1A1A1A;line-height:1}
+    .mock-kpi-label{font-size:10px;color:#888;margin-top:4px}
+    .mock-kpi-delta{font-size:10px;color:#2A7250;font-weight:600;margin-top:3px}
+    .mock-kpi-delta.warn{color:#F59E0B}
+    .mock-kpi-delta.alert{color:#EF4444}
+    .mock-chart-area{background:#F9F9F9;border-radius:10px;padding:12px 14px;border:1px solid #F0F0F0;margin-bottom:14px}
+    .mock-chart-label{font-size:10px;color:#999;margin-bottom:8px;display:flex;justify-content:space-between}
+    .mock-chart-label b{color:#2A7250;font-size:10px}
+    .mock-bars{display:flex;align-items:flex-end;gap:6px;height:52px}
+    .mock-bar{flex:1;border-radius:4px 4px 0 0;opacity:.85}
+    /* Floating badge */
+    .mock-badge{background:#fff;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.12);padding:12px 16px;display:inline-flex;gap:10px;align-items:center;border:1px solid rgba(0,0,0,.06);font-family:'Inter',sans-serif;margin-top:16px}
+    .mock-badge-dot{width:10px;height:10px;border-radius:50%;background:#2A7250;flex-shrink:0;box-shadow:0 0 0 3px rgba(42,114,80,.18)}
+    .mock-badge-text{font-size:12px;font-weight:700;color:#1A1A1A;line-height:1.3}
+    .mock-badge-sub{font-size:10.5px;color:#888;font-weight:400}
+    /* Character */
+    .mascot-char{width:340px;flex-shrink:0;align-self:flex-end;position:relative}
+    .mascot-char img{width:100%;display:block;filter:drop-shadow(0 24px 40px rgba(0,0,0,.15))}
+    /* Quote card */
+    .mascot-quote{background:#fff;border-radius:14px;border:1px solid var(--border);padding:18px 22px;max-width:360px;margin-top:24px;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+    .mascot-quote-text{font-size:14px;color:var(--dark);font-weight:600;line-height:1.5;margin-bottom:6px}
+    .mascot-quote-name{font-size:12px;color:var(--muted)}
+    @media(max-width:900px){
+      .mascot-wrap{grid-template-columns:1fr;gap:0}
+      .mascot-char{width:220px;margin:0 auto}
+      .mascot-left{padding-bottom:24px}
+      .mock-kpi-row{grid-template-columns:repeat(2,1fr)}
+      .mock-browser{max-width:100%}
+    }
+    @media(max-width:600px){
+      .mascot-sec{padding:60px 0 0}
+      .mascot-char{width:180px}
+    }
+
+    /* ── FAQ ── */
+    .faq-section{
+      background:var(--bg);padding:110px 0;
+      position:relative;overflow:hidden;
+    }
+    .faq-section::after{
+      content:'';position:absolute;top:0;right:0;
+      width:320px;height:320px;
+      background-image:radial-gradient(rgba(196,144,46,.12) 1.5px,transparent 1.5px);
+      background-size:24px 24px;
+      pointer-events:none;
+    }
+    .faq-list{margin-top:56px;display:flex;flex-direction:column;gap:0;max-width:780px;margin-left:auto;margin-right:auto}
+    .faq-item{border-bottom:1px solid var(--border);overflow:hidden}
+    .faq-item:first-child{border-top:1px solid var(--border)}
+    .faq-q{
+      width:100%;display:flex;align-items:center;justify-content:space-between;
+      padding:22px 0;background:transparent;border:none;cursor:pointer;
+      font-family:'Inter',sans-serif;font-size:16px;font-weight:600;
+      color:var(--text);text-align:left;gap:16px;
+      transition:color .2s;
+    }
+    .faq-q:hover{color:var(--gold)}
+    .faq-item.open .faq-q{color:var(--gold)}
+    .faq-icon{
+      width:24px;height:24px;border-radius:50%;
+      border:1.5px solid var(--border);
+      display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;transition:all .3s;color:var(--muted);font-size:16px;line-height:1;
+    }
+    .faq-item.open .faq-icon{
+      border-color:var(--gold);color:var(--gold);transform:rotate(45deg);
+    }
+    .faq-a{
+      max-height:0;overflow:hidden;
+      transition:max-height .4s ease;
+    }
+    .faq-item.open .faq-a{max-height:200px}
+    .faq-a-inner{
+      padding:0 0 22px;
+      font-size:14.5px;line-height:1.75;color:var(--muted);
+    }
+
+    /* ── FREE SECTION ── */
+    .free-section{
+      background:#0A1628;
+      padding:120px 0;position:relative;overflow:hidden;
+    }
+    .free-section::before{display:none}
+    .free-eyebrow{
+      font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+      color:var(--gold);text-align:center;margin-bottom:32px;
+      display:flex;align-items:center;justify-content:center;gap:16px;
+    }
+    .free-eyebrow::before,.free-eyebrow::after{content:'';width:40px;height:1px;background:rgba(196,144,46,.4)}
+    .free-hero{text-align:center;margin-bottom:52px}
+    .free-zero{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(80px,13vw,168px);font-weight:700;font-style:italic;
+      color:rgba(250,248,245,.95);line-height:.92;letter-spacing:-4px;margin-bottom:22px;
+    }
+    .free-zero em{color:var(--gold)}
+    .free-tagline{font-size:16px;color:rgba(250,248,245,.42);letter-spacing:.5px}
+    .free-pills{
+      display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
+      margin-bottom:72px;
+    }
+    .fp{
+      display:flex;align-items:center;gap:10px;
+      background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);
+      border-radius:50px;padding:10px 22px;
+      font-size:14px;color:rgba(250,248,245,.8);transition:all .25s;
+    }
+    .fp:hover{background:rgba(255,255,255,.09);border-color:rgba(196,144,46,.35)}
+    .fp-check{color:#4ADE80;font-weight:700;font-size:13px}
+    .free-why{
+      display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;
+      border-top:1px solid rgba(255,255,255,.08);padding-top:64px;
+    }
+    .free-why-label{
+      font-family:'Cormorant Garamond',serif;
+      font-size:30px;font-weight:700;color:rgba(250,248,245,.92);
+      margin-bottom:20px;line-height:1.2;
+    }
+    .free-why-text{font-size:15px;color:rgba(250,248,245,.62);line-height:1.8;margin-bottom:16px}
+    .free-why-text strong{color:rgba(250,248,245,.9)}
+    .free-why-note-small{font-size:14px;color:rgba(250,248,245,.36);line-height:1.75}
+    .free-card{
+      background:rgba(255,255,255,.065);border:1px solid rgba(255,255,255,.13);
+      border-radius:24px;padding:40px;
+    }
+    .free-card-ico{font-size:32px;margin-bottom:18px;display:block}
+    .free-card-inst{
+      font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+      color:rgba(250,248,245,.32);margin-bottom:6px;
+    }
+    .free-card-name{
+      font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;
+      color:rgba(250,248,245,.92);margin-bottom:28px;
+    }
+    .free-card-div{height:1px;background:rgba(255,255,255,.1);margin-bottom:28px}
+    .btn-gold{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:13px 28px;background:var(--gold);color:var(--dark);
+      font-size:14px;font-weight:700;border-radius:50px;text-decoration:none;
+      transition:all .3s;
+    }
+    .btn-gold:hover{background:#D4A850;transform:translateY(-2px);box-shadow:0 8px 24px rgba(196,144,46,.4)}
+    .free-card-cta{width:100%;justify-content:center;font-size:15px;padding:14px 28px}
+    .free-card-sub{text-align:center;font-size:12px;color:rgba(250,248,245,.28);margin-top:14px}
+
+    /* ── FOOTER ── */
+    footer{background:#060E18;padding:60px 0 28px}
+    .footer-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:40px;max-width:1200px;margin:0 auto;padding:0 48px}
+    .footer-brand{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:rgba(250,248,245,.9);margin:14px 0 10px;letter-spacing:.3px}
+    .footer-brand span{color:var(--gold)}
+    .footer-desc{font-size:13px;color:rgba(250,248,245,.48);line-height:1.7;margin-bottom:20px}
+    .f-social{display:flex;gap:8px}
+    .f-soc-btn{
+      width:34px;height:34px;border-radius:8px;
+      background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+      display:flex;align-items:center;justify-content:center;
+      color:rgba(250,248,245,.5);text-decoration:none;transition:all .25s;
+    }
+    .f-soc-btn:hover{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+    .f-soc-btn svg{width:15px;height:15px;fill:currentColor}
+    .f-col-title{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(250,248,245,.35);margin-bottom:16px}
+    .f-links{list-style:none;display:flex;flex-direction:column;gap:9px}
+    .f-links a{font-size:13.5px;color:rgba(250,248,245,.52);text-decoration:none;transition:color .2s}
+    .f-links a:hover{color:rgba(250,248,245,.88)}
+    .footer-bottom{max-width:1200px;margin:48px auto 0;padding:20px 48px 0;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .f-copy{font-size:12px;color:rgba(250,248,245,.28)}
+    .f-legal{display:flex;gap:20px}
+    .f-legal a{font-size:12px;color:rgba(250,248,245,.28);text-decoration:none;transition:color .2s}
+    .f-legal a:hover{color:rgba(250,248,245,.6)}
+
+    /* ── PROCESO INTERACTIVO ── */
+    .proceso-sec{background:var(--bg);padding:110px 0;overflow:hidden}
+    .proc-tabs{display:flex;align-items:center;justify-content:center;gap:0;margin:52px auto 0;max-width:700px;position:relative}
+    .proc-tab{display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif;padding:0 16px;transition:all .3s;flex-shrink:0;position:relative}
+    .pt-circle{width:56px;height:56px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:700;color:var(--muted);transition:all .4s;position:relative;z-index:2;background:var(--bg)}
+    .proc-tab.active .pt-circle{border-color:var(--gold);color:white;background:var(--gold)}
+    .proc-tab.done .pt-circle{border-color:var(--gold);color:var(--gold);background:transparent}
+    .pt-label{font-size:10.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);transition:color .3s;white-space:nowrap}
+    .proc-tab.active .pt-label{color:var(--gold)}
+    .pt-ring{position:absolute;top:-2px;left:50%;transform:translateX(-50%);width:60px;height:60px;pointer-events:none;z-index:3}
+    .pt-ring circle{fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round;stroke-dasharray:176;stroke-dashoffset:176;transform:rotate(-90deg);transform-origin:50% 50%}
+    .proc-tab.active .pt-ring circle{stroke-dashoffset:0;transition:stroke-dashoffset 4s linear}
+    .proc-conn{flex:1;height:1.5px;background:var(--border);position:relative;margin-bottom:32px;max-width:80px}
+    .proc-conn-bar{position:absolute;inset:0;background:var(--gold);transform-origin:left;transform:scaleX(0);transition:transform .6s ease}
+    .proc-conn.done .proc-conn-bar{transform:scaleX(1)}
+    .proc-panels{margin-top:60px;position:relative;min-height:420px}
+    .proc-panel{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:absolute;inset:0;opacity:0;pointer-events:none;will-change:transform,opacity}
+    .proc-panel.active{position:relative;opacity:1;pointer-events:all}
+    .pnl-step{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;margin-bottom:20px}
+    .pnl-step::before{content:'';width:20px;height:1px;background:var(--gold)}
+    .pnl-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.2vw,46px);font-weight:700;line-height:1.1;color:var(--dark);margin-bottom:16px}
+    .pnl-title em{font-style:italic;color:var(--gold)}
+    .pnl-desc{font-size:16px;line-height:1.78;color:var(--muted);margin-bottom:28px}
+    .pnl-tags{display:flex;flex-wrap:wrap;gap:8px}
+    .pnl-tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--text);background:white;border:1px solid var(--border);border-radius:50px;padding:6px 14px;box-shadow:var(--shadow)}
+    /* Panel visuals */
+    .pnl-vis{background:white;border-radius:20px;border:1px solid rgba(26,20,16,.08);box-shadow:0 20px 60px rgba(13,27,42,.12);overflow:hidden}
+    .pv-bar{background:#F5F2EE;padding:9px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(26,20,16,.06)}
+    .pv-dot{width:9px;height:9px;border-radius:50%}
+    .pv-url{flex:1;background:white;border-radius:5px;padding:3px 10px;font-size:9.5px;color:var(--muted);font-family:monospace}
+    .pv-body{padding:20px}
+    .pv-login{text-align:center;padding:24px 20px}
+    .pv-login-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--dark);margin-bottom:24px}
+    .pv-login-logo span{color:var(--gold)}
+    .pv-input{width:100%;padding:9px 14px;border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--muted);margin-bottom:10px;text-align:left;display:block}
+    .pv-btn{width:100%;padding:10px;background:var(--dark);color:white;border-radius:8px;font-size:12px;font-weight:600;text-align:center;margin-top:4px}
+    .pv-badge{display:inline-flex;align-items:center;gap:6px;background:#EDFAF3;color:var(--green);font-size:10px;font-weight:600;padding:5px 12px;border-radius:50px;margin-top:14px}
+    .pv-form-row{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+    .pv-label{font-size:9px;font-weight:600;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+    .pv-field{padding:8px 12px;background:#FAFAF8;border:1px solid var(--border);border-radius:7px;font-size:11px;color:var(--text)}
+    .pv-field.filled{color:var(--dark);font-weight:500}
+    .pv-submit{width:100%;padding:10px;background:var(--gold);color:white;border-radius:8px;font-size:12px;font-weight:700;text-align:center;margin-top:8px}
+    .pv-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+    .pv-kpi{background:var(--bg);border-radius:10px;padding:12px;border:1px solid var(--border)}
+    .pv-kpi-v{font-size:20px;font-weight:700;color:var(--dark);font-family:'Cormorant Garamond',serif}
+    .pv-kpi-l{font-size:9px;color:var(--muted);margin-top:2px}
+    .pv-kpi-d{font-size:9px;font-weight:600;margin-top:4px}
+    .pv-chart{height:60px;display:flex;align-items:flex-end;gap:5px;padding:0 4px}
+    .pv-bar-c{border-radius:3px 3px 0 0;flex:1;transition:height 1.2s ease}
+    .pv-modules{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+    .pv-mod{background:var(--bg);border-radius:8px;padding:10px 8px;text-align:center;border:1px solid var(--border)}
+    .pv-mod-ic{font-size:16px;display:block;margin-bottom:4px}
+    .pv-mod-n{font-size:9px;font-weight:600;color:var(--dark)}
+    .pv-mod-s{font-size:8px;color:var(--green);margin-top:2px}
+
+    /* ── GRATIS REDESIGN (Emprendedor) ── */
+    .free-section{background:linear-gradient(160deg,#0D1B2A 0%,#071018 60%,#0F1E2E 100%);padding:120px 0;position:relative;overflow:hidden}
+    .free-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+    .free-left{}
+    .free-badge-top{display:inline-flex;align-items:center;gap:8px;background:rgba(42,114,80,.2);border:1px solid rgba(42,114,80,.35);color:#4ADE80;font-size:11px;font-weight:600;padding:6px 16px;border-radius:50px;margin-bottom:28px;letter-spacing:.5px}
+    .free-badge-top::before{content:'';width:6px;height:6px;border-radius:50%;background:#4ADE80;animation:blink 1.8s infinite}
+    .free-display{font-family:'Cormorant Garamond',serif;font-size:clamp(64px,10vw,120px);font-weight:700;font-style:italic;color:rgba(250,248,245,.95);line-height:.92;letter-spacing:-3px;margin-bottom:20px}
+    .free-display em{color:var(--gold)}
+    .free-sub-line{font-size:15px;color:rgba(250,248,245,.45);margin-bottom:36px;letter-spacing:.3px}
+    .free-pills2{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px}
+    .fp2{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:rgba(250,248,245,.72);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:50px;padding:7px 16px;transition:all .25s}
+    .fp2:hover{background:rgba(255,255,255,.09);border-color:rgba(196,144,46,.3)}
+    .fp2-check{color:#4ADE80;font-size:11px;font-weight:700}
+    .free-why-brief{font-size:14px;color:rgba(250,248,245,.4);line-height:1.75;margin-bottom:32px;max-width:420px}
+    .free-why-brief strong{color:rgba(250,248,245,.75)}
+    .free-cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+    .btn-free-main{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--gold);color:#0D1B2A;font-size:14px;font-weight:700;border-radius:50px;text-decoration:none;transition:all .3s}
+    .btn-free-main:hover{background:#D4A850;transform:translateY(-2px);box-shadow:0 8px 32px rgba(196,144,46,.35)}
+    .btn-free-ghost{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border:1.5px solid rgba(250,248,245,.2);color:rgba(250,248,245,.7);font-size:14px;border-radius:50px;text-decoration:none;transition:all .3s}
+    .btn-free-ghost:hover{border-color:rgba(250,248,245,.45);color:rgba(250,248,245,.95)}
+    .free-right{position:relative;height:560px;overflow:visible}
+    /* Entrepreneur photo */
+    .emp-photo-wrap{position:absolute;top:0;left:0;width:75%;height:480px;border-radius:24px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.4);background-color:#1E2A38}
+    .emp-photo-img{width:100%;height:100%;object-fit:cover;object-position:top center}
+    .emp-photo-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(7,16,24,.7) 100%)}
+    /* Official stamp on photo */
+    .emp-stamp{position:absolute;bottom:20px;left:20px;background:rgba(7,16,24,.8);backdrop-filter:blur(12px);border:1px solid rgba(196,144,46,.3);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px}
+    .emp-stamp-ico{font-size:20px}
+    .emp-stamp-t{font-size:10px;font-weight:600;color:rgba(250,248,245,.4);letter-spacing:1px;text-transform:uppercase}
+    .emp-stamp-n{font-size:12px;font-weight:700;color:rgba(250,248,245,.9);margin-top:1px}
+    /* Floating system screenshot */
+    .emp-screen{position:absolute;bottom:-20px;right:-20px;width:58%;background:white;border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,.35);overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+    .emp-screen-bar{background:#F5F2EE;padding:8px 12px;display:flex;align-items:center;gap:5px;border-bottom:1px solid rgba(26,20,16,.06)}
+    .emp-screen-body{padding:16px}
+    .emp-screen-kpis{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+    .emp-skpi{background:#FAFAF8;border-radius:8px;padding:10px 12px;border:1px solid rgba(26,20,16,.06)}
+    .emp-skpi-v{font-size:15px;font-weight:700;color:#1E2A38;font-family:'Cormorant Garamond',serif}
+    .emp-skpi-l{font-size:8.5px;color:#6B7A8D;margin-top:1px}
+    .emp-skpi-d{font-size:8.5px;font-weight:600;margin-top:3px}
+    .emp-screen-chart{height:40px;display:flex;align-items:flex-end;gap:3px}
+    .emp-sbar{border-radius:2px 2px 0 0;flex:1}
+    /* Quote badge floating */
+    .emp-quote{position:absolute;top:32px;right:-10px;background:white;border-radius:16px;padding:14px 18px;box-shadow:0 8px 32px rgba(0,0,0,.2);max-width:180px;border-left:3px solid var(--gold)}
+    .emp-quote-text{font-size:12px;line-height:1.5;color:#1E2A38;font-style:italic;margin-bottom:8px}
+    .emp-quote-name{font-size:10px;font-weight:600;color:#6B7A8D}
+
+    /* RESPONSIVE */
+    /* ══════════════════════════════════════════
+       RESPONSIVE — index4.html
+       1100px → tablet landscape
+       960px  → tablet portrait / hamburger
+       720px  → phablet
+       480px  → mobile
+       360px  → small mobile
+    ══════════════════════════════════════════ */
+
+    /* ── 1100px: carpintero más pequeño, ajustar overlap ── */
+    @media(max-width:1100px){
+      .hero-carp-wrap{width:220px;right:-120px;bottom:-90px}
+      #hero{gap:40px}
+      /* KPI grid 2-col when visual column gets narrow */
+      .s-kpis{grid-template-columns:1fr 1fr}
+    }
+
+    /* ── 960px: tablet portrait — un solo columna, sin visual ni carpintero ── */
+    @media(max-width:960px){
+      /* NAV */
+      #nav{padding:14px 24px}
+      .nav-links{display:none}
+      .nav-hamburger-wrap{display:block}
+      .nav-hamburger{display:flex}
+
+      /* HERO — una columna, sin visual ni carpintero */
+      #hero{
+        grid-template-columns:1fr;
+        padding:100px 32px 56px;
+        gap:0;
+        text-align:center;
+      }
+      .hero-visual{display:none}
+      .hero-carp-wrap{display:none}
+      .float-card{display:none}
+
+      /* Centrar elementos del texto en hero — inline-flex no centra con margin:auto */
+      .hero-target-badge{display:flex;width:fit-content;margin:0 auto 16px}
+      .hero-free-badge{display:flex;width:fit-content;margin:0 auto 24px}
+      .hero-sub{margin:0 auto 40px;max-width:520px}
+      .hero-actions{align-items:center;width:100%}
+      .btn-hero-primary,.btn-hero-secondary{width:100%;max-width:440px;justify-content:center}
+      .hero-sponsor{justify-content:center;max-width:520px;margin:36px auto 0}
+
+      /* SECTIONS */
+      .wrap{padding:0 32px}
+      .sec{padding:80px 0}
+
+      /* Features */
+      .feature-block{grid-template-columns:1fr;gap:36px}
+      .feature-block.reverse{direction:ltr}
+
+      /* Stats */
+      .stats-row{grid-template-columns:1fr 1fr}
+
+      /* Módulos */
+      .modules-grid,.mshow-grid{grid-template-columns:1fr 1fr}
+
+      /* Proceso */
+      .process-grid{grid-template-columns:1fr 1fr}
+      .p-arrow{display:none}
+      .proc-panel{grid-template-columns:1fr;gap:32px}
+      .proc-panels{min-height:auto}
+      .proc-tabs{gap:0;overflow-x:auto;padding-bottom:8px;justify-content:flex-start;max-width:100%;-webkit-overflow-scrolling:touch}
+      .proc-conn{max-width:40px}
+
+      /* Comparativa */
+      .compare-wrap{grid-template-columns:1fr}
+
+      /* Mascot section */
+      .mascot-wrap{grid-template-columns:1fr;gap:0}
+      .mascot-char{width:180px;margin:0 auto}
+      .mascot-left{padding-bottom:24px}
+      .mock-kpi-row{grid-template-columns:1fr 1fr}
+
+      /* FAQ */
+      .faq-section::after{display:none}
+
+      /* Gratis */
+      .free-grid{grid-template-columns:1fr}
+      .free-right{height:320px;margin-top:48px}
+      .emp-photo-wrap{width:85%;height:320px}
+      .emp-screen{width:62%;bottom:-10px;right:0}
+      .emp-quote{top:20px;right:0;max-width:160px}
+      .free-why{grid-template-columns:1fr}
+
+      /* Footer */
+      .footer-grid{grid-template-columns:1fr 1fr;padding:0 32px}
+    }
+
+    /* ── 720px: phablet — más compacto ── */
+    @media(max-width:720px){
+      #hero{padding:88px 24px 48px}
+      .wrap{padding:0 24px}
+      .sec{padding:64px 0}
+      .stats-row{grid-template-columns:1fr 1fr;gap:16px}
+      .modules-grid,.mshow-grid{grid-template-columns:1fr 1fr}
+      .process-grid{grid-template-columns:1fr}
+      .proc-tab{padding:0 8px}
+      .pt-label{font-size:10px}
+      .footer-grid{grid-template-columns:1fr;padding:0 24px}
+      .mascot-char{width:150px}
+      .mock-browser{max-width:100%}
+    }
+
+    /* ── 480px: mobile ── */
+    @media(max-width:480px){
+      #hero{padding:80px 20px 44px}
+      .wrap{padding:0 20px}
+      .sec{padding:56px 0}
+
+      /* Título hero más compacto */
+      .hero-title{font-size:clamp(36px,10vw,52px);line-height:1.1}
+      .hero-sub{font-size:15px;line-height:1.68}
+
+      /* Botones full-width */
+      .btn-hero-primary{padding:17px 28px;font-size:15px}
+      .btn-hero-secondary{padding:14px 20px;font-size:14px}
+
+      /* Sponsor apilado */
+      .hero-sponsor{flex-direction:column;align-items:center;gap:14px;padding:14px 16px}
+      .hero-sponsor-sep{display:none}
+
+      /* Módulos 1 col */
+      .modules-grid,.mshow-grid{grid-template-columns:1fr}
+      .process-grid{grid-template-columns:1fr}
+      .stats-row{grid-template-columns:1fr 1fr;gap:12px}
+
+      /* Proceso tabs scroll */
+      .proc-tab{padding:0 6px}
+      .pt-circle{width:44px;height:44px;font-size:15px}
+      .pt-ring{width:48px;height:48px}
+      .pt-label{font-size:9px;letter-spacing:.4px}
+      .pnl-title{font-size:clamp(22px,7vw,34px)}
+
+      /* Gratis */
+      .free-display{font-size:clamp(52px,16vw,88px)}
+      .free-right{height:280px}
+      .emp-photo-wrap{height:280px}
+
+      /* Mascot 1 col */
+      .mascot-sec{padding:48px 0 0}
+      .mascot-char{width:130px}
+      .mock-kpi-row{grid-template-columns:1fr 1fr}
+      .mock-badge,.mascot-quote{width:100%;box-sizing:border-box;max-width:100%}
+      .mock-badge{display:flex}
+
+      /* Footer */
+      .footer-grid{gap:32px}
+    }
+
+    /* ── 360px: móvil pequeño ── */
+    @media(max-width:360px){
+      #hero{padding:72px 16px 40px}
+      .wrap{padding:0 16px}
+      .hero-title{font-size:clamp(32px,10vw,44px)}
+      .btn-hero-primary{font-size:14px;padding:15px 20px}
+      .stats-row{grid-template-columns:1fr}
+      .hero-sponsor img{height:28px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <div class="nav-links">
+    <a href="#features">Funciones</a>
+    <a href="#modulos">Módulos</a>
+    <a href="#proceso">Cómo funciona</a>
+    <a href="#gratis">Por qué gratis</a>
+  </div>
+  <div class="nav-hamburger-wrap">
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu overlay -->
+<div class="nav-mobile" id="nav-mobile">
+  <button class="nav-mobile-close" id="nav-mobile-close" aria-label="Cerrar menú">✕</button>
+  <div class="nav-mobile-links">
+    <a href="#features">Funciones</a>
+    <a href="#modulos">Módulos</a>
+    <a href="#proceso">Cómo funciona</a>
+    <a href="#gratis">Por qué gratis</a>
+  </div>
+  <a href="../erp-sistema/index.html" class="nav-mobile-cta">
+    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+    Acceder al ERP — Es gratis
+  </a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero-section" style="background:var(--bg);position:relative;overflow:hidden">
+  <!-- Fondo doodle carpintería — patrón repetido a 45° -->
+  <div style="position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:url('img/fondo-doodle.png') repeat;background-size:600px;transform:rotate(45deg);opacity:0.04;pointer-events:none;z-index:0;filter:invert(1)"></div>
+  <div id="hero">
+
+    <!-- Abstract SVG overlay lines -->
+    <div class="hero-svg-overlay">
+      <svg width="100%" height="100%" viewBox="0 0 1280 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <path d="M -80 600 Q 400 200 900 520 T 1400 300" stroke="rgba(196,144,46,0.04)" stroke-width="2" fill="none"/>
+        <path d="M 200 800 Q 600 400 1100 650 T 1500 400" stroke="rgba(196,144,46,0.03)" stroke-width="1.5" fill="none"/>
+        <path d="M -100 300 Q 300 100 700 400 T 1300 200" stroke="rgba(196,144,46,0.025)" stroke-width="1" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- TEXT -->
+    <div style="position:relative;z-index:1">
+
+      <!-- Location badge -->
+      <div class="hero-target-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        MYPE de madera y mueblería · Perú
+        <svg width="22" height="14" viewBox="0 0 22 14" xmlns="http://www.w3.org/2000/svg" style="border-radius:2px;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.18)">
+          <rect width="22" height="14" fill="#D91023"/>
+          <rect x="7.33" width="7.34" height="14" fill="#F5F5F5"/>
+        </svg>
+      </div>
+
+      <div class="hero-free-badge">100% Gratuito, para siempre</div>
+
+      <h1 class="hero-title">
+        <span class="line"><span class="word">El</span> <span class="word">sistema</span> <span class="word">para</span> <span class="word">el</span></span>
+        <span class="line"><em class="word">sector madera</em></span>
+        <span class="line"><em class="word">y del mueble</em></span>
+        <span class="line"><span class="word">del</span> <span class="word">Perú</span></span>
+      </h1>
+
+      <p class="hero-sub">Olvídate de los cuadernos. Organiza tu producción, controla tu stock y mantén tus finanzas en orden — desde cualquier dispositivo, sin complicaciones ni costos.</p>
+
+      <div class="hero-actions">
+        <a href="../erp-sistema/index.html" class="btn-hero-primary">
+          <span class="btn-hero-primary-inner">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Emprende con orden — Accede gratis
+            <span class="btn-hero-arrow">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </span>
+        </a>
+        <a href="#proceso" class="btn-hero-secondary">
+          <span class="btn-play-wrap">▷</span>
+          Ver el sistema en acción
+        </a>
+      </div>
+
+      <!-- Sponsor strip — prominente -->
+      <div class="hero-sponsor">
+        <span class="hero-sponsor-label">Respaldado por</span>
+        <div class="hero-sponsor-sep"></div>
+        <img src="img/logo-cite-madera.svg" alt="CITE Madera y del Mueble"/>
+        <div class="hero-sponsor-sep"></div>
+        <img src="img/logo-itp.svg" alt="ITP — Instituto Tecnológico de la Producción"/>
+      </div>
+
+    </div>
+
+    <!-- VISUAL / CSS DASHBOARD -->
+    <div class="hero-visual" id="hero-visual">
+      <div class="screen-chrome" style="position:relative;z-index:2">
+        <div class="screen-bar">
+          <div style="display:flex;gap:5px">
+            <div class="s-dot" style="background:#FF5F57"></div>
+            <div class="s-dot" style="background:#FEBC2E"></div>
+            <div class="s-dot" style="background:#28C840"></div>
+          </div>
+          <div class="s-url">erp.citemadera.pe/dashboard</div>
+        </div>
+        <div class="screen-body">
+          <div class="s-sidebar">
+            <div class="s-icon">🪵</div>
+            <div style="height:16px"></div>
+            <div class="s-icon on">📊</div>
+            <div class="s-icon">📦</div>
+            <div class="s-icon">📈</div>
+            <div class="s-icon">⚙️</div>
+            <div class="s-icon">💵</div>
+            <div class="s-icon">👥</div>
+          </div>
+          <div class="s-main">
+            <div class="s-topbar">
+              <div class="s-title-bar">Resumen del mes</div>
+              <div class="s-date">Marzo 2026</div>
+            </div>
+            <div class="s-kpis">
+              <div class="s-kpi">
+                <div class="s-kpi-v">S/45K</div>
+                <div class="s-kpi-l">Ventas</div>
+                <div class="s-kpi-delta" style="color:var(--green)">↑ 12%</div>
+              </div>
+              <div class="s-kpi">
+                <div class="s-kpi-v">87%</div>
+                <div class="s-kpi-l">A tiempo</div>
+                <div class="s-kpi-delta" style="color:var(--green)">↑ 5%</div>
+              </div>
+              <div class="s-kpi">
+                <div class="s-kpi-v">5 OPs</div>
+                <div class="s-kpi-l">Producción</div>
+                <div class="s-kpi-delta" style="color:var(--gold)">En proceso</div>
+              </div>
+              <div class="s-kpi">
+                <div class="s-kpi-v">3 ⚠</div>
+                <div class="s-kpi-l">Stock bajo</div>
+                <div class="s-kpi-delta" style="color:#B91C1C">Revisar</div>
+              </div>
+            </div>
+            <div class="s-chart-wrap">
+              <div class="s-chart-head">
+                <span>Ventas — últimos 6 meses</span>
+                <span style="color:var(--green);font-weight:600">+18% vs año anterior</span>
+              </div>
+              <div class="s-bars" id="hero-bars">
+                <div class="s-bar" style="background:#E8DDD0;height:0%" data-h="50"></div>
+                <div class="s-bar" style="background:#D4C4B0;height:0%" data-h="38"></div>
+                <div class="s-bar" style="background:#C0A880;height:0%" data-h="68"></div>
+                <div class="s-bar" style="background:#C49A38;height:0%" data-h="45"></div>
+                <div class="s-bar" style="background:#C4902E;height:0%" data-h="82"></div>
+                <div class="s-bar" style="background:#9B6828;height:0%" data-h="72"></div>
+              </div>
+            </div>
+            <div class="s-row">
+              <div class="s-card">
+                <div class="s-card-t">ÚLTIMAS VENTAS</div>
+                <div class="s-list-item"><span>Juego sala completo</span><span class="s-badge tag-ok">S/3,200</span></div>
+                <div class="s-list-item"><span>Cocina melamina</span><span class="s-badge tag-ok">S/5,800</span></div>
+                <div class="s-list-item"><span>Dormitorio niños</span><span class="s-badge tag-ok">S/2,400</span></div>
+              </div>
+              <div class="s-card" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px">
+                <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--dark)">34%</div>
+                <div style="font-size:10px;color:var(--muted)">Margen bruto del mes</div>
+                <div style="font-size:10px;color:var(--green);font-weight:600">↑ Meta: 30%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Floating card 1 — ventas -->
+      <div class="float-card float-card-a" style="bottom:-22px;left:-32px;z-index:3;min-width:175px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          <div style="width:28px;height:28px;border-radius:8px;background:#EDFAF3;display:flex;align-items:center;justify-content:center;font-size:14px">💰</div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)">Ventas</div>
+        </div>
+        <div class="fc-val">S/45,320</div>
+        <div class="fc-lbl">Marzo 2026</div>
+        <div class="fc-trend" style="color:var(--green)">↑ 12% vs mes anterior</div>
+      </div>
+      <!-- Floating card 2 — estado sistema -->
+      <div class="float-card float-card-b" style="top:-18px;right:-24px;z-index:3">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(42,114,80,.2)"></div>
+          <div style="font-size:12.5px;font-weight:700;color:var(--dark)">Sistema en línea</div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:5px">Actualizado hace 2 min</div>
+        <div style="font-size:10px;color:var(--green);font-weight:600;margin-top:3px">9 módulos activos</div>
+      </div>
+      <!-- Carpenter character -->
+      <div class="hero-carp-wrap">
+        <img src="img/carpintero.png" alt="Maestro carpintero señalando el sistema ERP"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TICKER ═══ -->
+<div class="ticker">
+  <div class="ticker-track" id="ticker">
+    <span>Completamente Gratuito</span><span class="dot">·</span>
+    <span>9 Módulos Integrados</span><span class="dot">·</span>
+    <span>Hecho en Perú</span><span class="dot">·</span>
+    <span>Para Empresas de Madera y Muebles</span><span class="dot">·</span>
+    <span>Sin Costos Ocultos</span><span class="dot">·</span>
+    <span>Acceso Inmediato</span><span class="dot">·</span>
+    <span>Soporte en Español</span><span class="dot">·</span>
+    <span>Datos Seguros</span><span class="dot">·</span>
+    <span>Completamente Gratuito</span><span class="dot">·</span>
+    <span>9 Módulos Integrados</span><span class="dot">·</span>
+    <span>Hecho en Perú</span><span class="dot">·</span>
+    <span>Para Empresas de Madera y Muebles</span><span class="dot">·</span>
+    <span>Sin Costos Ocultos</span><span class="dot">·</span>
+    <span>Acceso Inmediato</span><span class="dot">·</span>
+    <span>Soporte en Español</span><span class="dot">·</span>
+    <span>Datos Seguros</span><span class="dot">·</span>
+  </div>
+</div>
+
+<!-- ═══ STATS ═══ -->
+<section class="sec" style="background:var(--bg);padding-top:0;padding-bottom:0">
+  <div class="wrap">
+    <div class="stats-row reveal">
+      <div class="stat-cell">
+        <div class="stat-num" data-target="9" data-suffix="">0</div>
+        <div class="stat-label">Módulos completamente<br/>integrados y gratuitos</div>
+        <div class="stat-sub">Un solo sistema</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">S/0</div>
+        <div class="stat-label">Costo de por vida.<br/>Gratis, para siempre.</div>
+        <div class="stat-sub">Sin sorpresas</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num" data-target="5000" data-suffix="+">0+</div>
+        <div class="stat-label">MYPE del sector madera<br/>y mueblería en el Perú</div>
+        <div class="stat-sub">Mercado objetivo ITP</div>
+      </div>
+      <div class="stat-cell" style="border-right:none">
+        <div class="stat-num" data-target="100" data-suffix="%">0%</div>
+        <div class="stat-label">En español, pensado<br/>para la realidad peruana</div>
+        <div class="stat-sub">Soporte incluido</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ═══ FEATURES ═══ -->
+<section id="features" class="sec" style="background:var(--bg)">
+  <div class="wrap">
+    <div class="reveal" style="margin-bottom:16px">
+      <div class="eyebrow">Funciones clave</div>
+      <h2 class="display-title">Cada módulo,<br/><em>perfectamente integrado</em></h2>
+    </div>
+
+    <!-- Feature 1: Inventario -->
+    <div class="feature-block reveal">
+      <div>
+        <div class="feat-label">Inventario</div>
+        <h3 class="feat-title">Control total de tu<br/><em>stock de materiales</em></h3>
+        <p class="feat-desc">Sabe exactamente qué tienes, cuánto vale y cuándo reponerlo. Las alertas automáticas te avisan antes de quedarte sin nada.</p>
+        <ul class="feat-list">
+          <li>Kardex completo de movimientos de entrada y salida</li>
+          <li>Alertas de stock mínimo con semáforo visual</li>
+          <li>Valorización automática del inventario</li>
+          <li>Búsqueda y filtros por categoría, proveedor o estado</li>
+        </ul>
+      </div>
+      <div class="feat-ui">
+        <div class="feat-ui-header">
+          <span class="feat-ui-title">Inventario de materiales</span>
+          <span class="feat-ui-badge">15 items · 3 alertas</span>
+        </div>
+        <div class="feat-ui-body">
+          <table class="mock-table">
+            <thead><tr><th>Material</th><th>Stock</th><th>Mín.</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr><td>MDF 15mm 244×122</td><td>24 und</td><td>10</td><td><span class="tag tag-ok">OK</span></td></tr>
+              <tr><td>Melamina Nogal</td><td>8 und</td><td>10</td><td><span class="tag tag-warn">Bajo</span></td></tr>
+              <tr><td>Bisagra Blum 35mm</td><td>0</td><td>50</td><td><span class="tag tag-red">Agotado</span></td></tr>
+              <tr><td>Tornillo 3.5×40</td><td>380 und</td><td>200</td><td><span class="tag tag-ok">OK</span></td></tr>
+              <tr><td>Jalador Acero Inox</td><td>12 und</td><td>20</td><td><span class="tag tag-warn">Bajo</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature 2: Ventas -->
+    <div class="feature-block reverse reveal">
+      <div>
+        <div class="feat-label">Ventas</div>
+        <h3 class="feat-title">De cotización a<br/><em>factura en segundos</em></h3>
+        <p class="feat-desc">El flujo completo de ventas en un solo sistema. Genera cotizaciones profesionales, conviértelas en órdenes y emite facturas con IGV automático.</p>
+        <ul class="feat-list">
+          <li>Cotizaciones con líneas de producto y cálculo de IGV 18%</li>
+          <li>Conversión automática: Cotización → OV → Factura</li>
+          <li>Historial completo de clientes y sus compras</li>
+          <li>Estados visuales: Borrador, Enviada, Aprobada, Facturada</li>
+        </ul>
+      </div>
+      <div class="feat-ui">
+        <div class="feat-ui-header">
+          <span class="feat-ui-title">Cotización #COT-0042</span>
+          <span class="feat-ui-badge" style="background:#EEF2FF;color:#4F46E5">Aprobada</span>
+        </div>
+        <div class="feat-ui-body">
+          <div style="margin-bottom:14px">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:4px">CLIENTE</div>
+            <div style="font-size:13px;font-weight:600;color:var(--dark)">Muebles del Norte SAC</div>
+          </div>
+          <table class="mock-table">
+            <thead><tr><th>Producto</th><th>Cant.</th><th>P.Unit</th><th>Total</th></tr></thead>
+            <tbody>
+              <tr><td>Cama 2 plazas MDF</td><td>2</td><td>S/480</td><td>S/960</td></tr>
+              <tr><td>Mesa de noche</td><td>4</td><td>S/150</td><td>S/600</td></tr>
+              <tr><td>Ropero 4 puertas</td><td>1</td><td>S/920</td><td>S/920</td></tr>
+            </tbody>
+          </table>
+          <div style="border-top:1px solid var(--border);margin-top:12px;padding-top:12px;display:flex;flex-direction:column;gap:4px">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted)"><span>Subtotal</span><span>S/2,480</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted)"><span>IGV (18%)</span><span>S/446</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:var(--dark);margin-top:4px"><span>Total</span><span>S/2,926</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature 3: Producción -->
+    <div class="feature-block reveal">
+      <div>
+        <div class="feat-label">Producción</div>
+        <h3 class="feat-title">Fabrica más,<br/><em>desperdicia menos</em></h3>
+        <p class="feat-desc">Gestiona tus órdenes de producción con tablero Kanban visual, lista de materiales (BOM) y control de mermas. Sabe en tiempo real qué se está fabricando.</p>
+        <ul class="feat-list">
+          <li>Tablero Kanban: Planificada → En proceso → QC → Lista</li>
+          <li>BOM detallado con consumo real de materiales</li>
+          <li>Registro de mermas y retrabajos por OP</li>
+          <li>KPI: % entregas a tiempo y uso de capacidad</li>
+        </ul>
+      </div>
+      <div class="feat-ui">
+        <div class="feat-ui-header">
+          <span class="feat-ui-title">Tablero de Producción</span>
+          <span class="feat-ui-badge">5 OPs activas</span>
+        </div>
+        <div class="feat-ui-body">
+          <div class="kanban">
+            <div>
+              <div class="k-col-title"><span style="width:8px;height:8px;border-radius:2px;background:#F59E0B;display:inline-block"></span>Planificada</div>
+              <div class="k-card"><div class="k-card-t">OP-023 — Cocina</div><div class="k-card-s">Cliente: García SAC</div></div>
+              <div class="k-card"><div class="k-card-t">OP-024 — Sala</div><div class="k-card-s">Cliente: Vásquez M.</div></div>
+            </div>
+            <div>
+              <div class="k-col-title"><span style="width:8px;height:8px;border-radius:2px;background:#3B82F6;display:inline-block"></span>En Proceso</div>
+              <div class="k-card"><div class="k-card-t">OP-021 — Dormit.</div><div class="k-card-s">Avance: 65%</div></div>
+              <div class="k-card"><div class="k-card-t">OP-022 — Ropero</div><div class="k-card-s">Avance: 40%</div></div>
+            </div>
+            <div>
+              <div class="k-col-title"><span style="width:8px;height:8px;border-radius:2px;background:#10B981;display:inline-block"></span>Completada</div>
+              <div class="k-card"><div class="k-card-t">OP-020 — Cama</div><div class="k-card-s" style="color:var(--green)">✓ Entregado</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature 4: Costos -->
+    <div class="feature-block reverse reveal">
+      <div>
+        <div class="feat-label">Costos y Finanzas</div>
+        <h3 class="feat-title">Descubre tu<br/><em>margen real</em></h3>
+        <p class="feat-desc">Compara el costo estándar con el costo real de cada producto. Semáforos de alerta te dicen exactamente qué productos te generan pérdidas.</p>
+        <ul class="feat-list">
+          <li>Costo estándar vs real por producto o OP</li>
+          <li>Semáforo: verde ≥ 25% · amarillo 15-25% · rojo &lt; 15%</li>
+          <li>Flujo de caja mensual con proyecciones</li>
+          <li>CxC y CxP con alertas de vencimiento</li>
+        </ul>
+      </div>
+      <div class="feat-ui">
+        <div class="feat-ui-header">
+          <span class="feat-ui-title">Análisis de Márgenes</span>
+          <span class="feat-ui-badge" style="background:#FFF7ED;color:#B45309">2 alertas</span>
+        </div>
+        <div class="feat-ui-body">
+          <div class="kpi-compare" id="kpi-bars">
+            <div class="kpi-row">
+              <span class="kpi-label">Juego de sala</span>
+              <div class="kpi-track"><div class="kpi-fill" style="width:0%;background:var(--green)" data-w="34"></div></div>
+              <span class="kpi-val">34%</span>
+            </div>
+            <div class="kpi-row">
+              <span class="kpi-label">Cocina melamina</span>
+              <div class="kpi-track"><div class="kpi-fill" style="width:0%;background:#F59E0B" data-w="22"></div></div>
+              <span class="kpi-val">22%</span>
+            </div>
+            <div class="kpi-row">
+              <span class="kpi-label">Cama 2 plazas</span>
+              <div class="kpi-track"><div class="kpi-fill" style="width:0%;background:var(--green)" data-w="38"></div></div>
+              <span class="kpi-val">38%</span>
+            </div>
+            <div class="kpi-row">
+              <span class="kpi-label">Mesa comedor</span>
+              <div class="kpi-track"><div class="kpi-fill" style="width:0%;background:#EF4444" data-w="11"></div></div>
+              <span class="kpi-val">11%</span>
+            </div>
+            <div class="kpi-row">
+              <span class="kpi-label">Ropero 4 puertas</span>
+              <div class="kpi-track"><div class="kpi-fill" style="width:0%;background:var(--green)" data-w="29"></div></div>
+              <span class="kpi-val">29%</span>
+            </div>
+          </div>
+          <div style="margin-top:14px;display:flex;gap:12px;font-size:10px">
+            <span style="display:flex;align-items:center;gap:4px;color:var(--muted)"><span style="width:8px;height:8px;border-radius:2px;background:var(--green);display:inline-block"></span>≥25% OK</span>
+            <span style="display:flex;align-items:center;gap:4px;color:var(--muted)"><span style="width:8px;height:8px;border-radius:2px;background:#F59E0B;display:inline-block"></span>15-25% Revisar</span>
+            <span style="display:flex;align-items:center;gap:4px;color:var(--muted)"><span style="width:8px;height:8px;border-radius:2px;background:#EF4444;display:inline-block"></span>&lt;15% Alerta</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Micro-CTA -->
+    <div class="reveal" style="text-align:center;padding:32px 0 16px;border-top:1px solid var(--border);margin-top:32px">
+      <p style="font-size:15px;color:var(--muted);margin-bottom:20px">¿Listo para gestionar tu empresa como un pro?</p>
+      <a href="../erp-sistema/index.html" class="btn-dark" style="display:inline-flex;align-items:center;gap:8px">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        Probar el sistema ahora — Es gratis
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ═══ MÓDULOS ═══ -->
+<section id="modulos" class="mshow-section">
+  <div class="mshow-deco-lines"></div>
+  <div class="deco-ring-1 deco-circle"></div>
+  <div class="deco-ring-2 deco-circle"></div>
+
+  <div class="wrap" style="position:relative;z-index:1">
+    <div class="reveal">
+      <div class="mshow-eyebrow">Sistema integrado</div>
+      <h2 class="mshow-title">9 módulos. <em>Un solo sistema.</em></h2>
+      <p class="mshow-sub">Todo conectado. Lo que ingresa en compras actualiza inventario, alimenta producción y genera costos reales automáticamente.</p>
+    </div>
+
+    <div class="mshow-grid">
+
+      <!-- 01 Dashboard -->
+      <div class="mshow-card">
+        <div class="mshow-card-num">01</div>
+        <div class="mshow-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#C4902E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3,20 3,10 10,10 10,20"/>
+            <polyline points="11,20 11,5 18,5 18,20"/>
+            <polyline points="19,20 19,13 23,13 23,20"/>
+            <polyline points="1,22 25,22"/>
+            <polyline points="3,10 8,6 15,9 23,3"/>
+          </svg>
+        </div>
+        <div class="mshow-name">Dashboard</div>
+        <div class="mshow-desc">KPIs en tiempo real, alertas inteligentes y visión completa del negocio en un solo vistazo.</div>
+      </div>
+
+      <!-- 02 Inventario -->
+      <div class="mshow-card">
+        <div class="mshow-card-num">02</div>
+        <div class="mshow-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#C4902E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 9l11-6 11 6v12l-11 6-11-6V9z"/>
+            <polyline points="2,9 13,15 24,9"/>
+            <line x1="13" y1="15" x2="13" y2="27"/>
+          </svg>
+        </div>
+        <div class="mshow-name">Inventario</div>
+        <div class="mshow-desc">Control de stock con Kardex, alertas de reposición y valorización automática del inventario.</div>
+      </div>
+
+      <!-- 03 Compras -->
+      <div class="mshow-card">
+        <div class="mshow-card-num">03</div>
+        <div class="mshow-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#C4902E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 1h4l2.7 13.4a2 2 0 002 1.6h9.7a2 2 0 002-1.6L23 6H6"/>
+            <circle cx="10" cy="23" r="1.5"/>
+            <circle cx="20" cy="23" r="1.5"/>
+          </svg>
+        </div>
+        <div class="mshow-name">Compras</div>
+        <div class="mshow-desc">Proveedores, órdenes de compra, flujo de aprobación y recepción parcial de pedidos.</div>
+      </div>
+
+      <!-- 04 Ventas -->
+      <div class="mshow-card">
+        <div class="mshow-card-num">04</div>
+        <div class="mshow-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#C4902E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="2,20 8,13 13,17 22,7"/>
+            <polyline points="16,7 22,7 22,13"/>
+          </svg>
+        </div>
+        <div class="mshow-name">Ventas</div>
+        <div class="mshow-desc">Cotizaciones, órdenes de venta y facturas con IGV 18%. Flujo completo de un toque.</div>
+      </div>
+
+      <!-- 05 Producción -->
+      <div class="mshow-card">
+        <div class="mshow-card-num">05</div>
+        <div class="mshow-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#C4902E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="13" cy="13" r="4"/>
+            <path d="M13 1v3M13 22v3M1 13h3M22 13h3M4.2 4.2l2.1 2.1M19.7 19.7l2.1 2.1M4.2 21.8l2.1-2.1M19.7 6.3l2.1-2.1"/>
+          </svg>
+        </div>
+        <div class="mshow-name">Producción</div>
+        <div class="mshow-desc">OPs, BOM, tablero Kanban, Gantt y control de mermas y retrabajos por orden de trabajo.</div>
+      </div>
+
+      <!-- 06 Costos -->
+      <div class="mshow-card">
+        <div class="mshow-card-num">06</div>
+        <div class="mshow-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#C4902E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="13" cy="13" r="10"/>
+            <path d="M13 3v10l7 7"/>
+            <circle cx="7" cy="8" r="1.5" fill="#C4902E" stroke="none"/>
+            <circle cx="13" cy="6" r="1.5" fill="#C4902E" stroke="none"/>
+            <circle cx="19" cy="8" r="1.5" fill="#C4902E" stroke="none"/>
+          </svg>
+        </div>
+        <div class="mshow-name">Costos</div>
+        <div class="mshow-desc">Costo estándar vs real, semáforos de margen y análisis de rentabilidad por producto.</div>
+      </div>
+
+      <!-- 07 Finanzas -->
+      <div class="mshow-card">
+        <div class="mshow-card-num">07</div>
+        <div class="mshow-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#C4902E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="6" width="22" height="15" rx="3"/>
+            <path d="M2 10h22"/>
+            <circle cx="13" cy="16" r="3"/>
+            <path d="M7 16h0M19 16h0"/>
+          </svg>
+        </div>
+        <div class="mshow-name">Finanzas</div>
+        <div class="mshow-desc">Flujo de caja proyectado, CxC, CxP y alertas de vencimiento de facturas por cobrar.</div>
+      </div>
+
+      <!-- 08 RRHH -->
+      <div class="mshow-card">
+        <div class="mshow-card-num">08</div>
+        <div class="mshow-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#C4902E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M1 23c0-6 4-10 8-10"/>
+            <circle cx="19" cy="9" r="3"/>
+            <path d="M25 23c0-5-3-8.5-7.5-9.5"/>
+            <path d="M13 23c0-4.5 2.5-7.5 6-9"/>
+          </svg>
+        </div>
+        <div class="mshow-name">RRHH</div>
+        <div class="mshow-desc">Empleados, asistencia semanal, planilla mensual y boletas de pago digitales automáticas.</div>
+      </div>
+
+      <!-- 09 Administración -->
+      <div class="mshow-card">
+        <div class="mshow-card-num">09</div>
+        <div class="mshow-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#C4902E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L3 6.5v7c0 6.5 4 12 10 14 6-2 10-7.5 10-14v-7L13 2z"/>
+            <polyline points="9,13 12,16 18,10"/>
+          </svg>
+        </div>
+        <div class="mshow-name">Administración</div>
+        <div class="mshow-desc">Usuarios, roles, matriz de permisos configurables y registro de auditoría del sistema.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ═══ PROCESO ═══ -->
+<section id="proceso" class="proceso-sec">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow" style="justify-content:center">Proceso simple</div>
+      <h2 class="display-title" style="text-align:center;margin-top:14px">De cero a<br/><em>gestión profesional</em></h2>
+      <p class="body-text" style="font-size:15px;margin:16px auto 0;max-width:440px">Sin curva de aprendizaje. Sin instalaciones. Solo abre el navegador y empieza.</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="proc-tabs" id="proc-tabs">
+      <button class="proc-tab active" data-step="0">
+        <svg class="pt-ring" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28"/></svg>
+        <div class="pt-circle">01</div>
+        <span class="pt-label">Accede</span>
+      </button>
+      <div class="proc-conn" id="conn-0"><div class="proc-conn-bar"></div></div>
+      <button class="proc-tab" data-step="1">
+        <svg class="pt-ring" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28"/></svg>
+        <div class="pt-circle">02</div>
+        <span class="pt-label">Configura</span>
+      </button>
+      <div class="proc-conn" id="conn-1"><div class="proc-conn-bar"></div></div>
+      <button class="proc-tab" data-step="2">
+        <svg class="pt-ring" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28"/></svg>
+        <div class="pt-circle">03</div>
+        <span class="pt-label">Gestiona</span>
+      </button>
+      <div class="proc-conn" id="conn-2"><div class="proc-conn-bar"></div></div>
+      <button class="proc-tab" data-step="3">
+        <svg class="pt-ring" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28"/></svg>
+        <div class="pt-circle">04</div>
+        <span class="pt-label">Decide</span>
+      </button>
+    </div>
+
+    <!-- Panels -->
+    <div class="proc-panels" id="proc-panels">
+
+      <!-- Panel 0: Accede -->
+      <div class="proc-panel active" id="panel-0">
+        <div style="position:relative">
+          <div class="pnl-step">Paso 01 — Accede</div>
+          <h3 class="pnl-title">Acceso directo.<br/><em>Sin complicaciones.</em></h3>
+          <p class="pnl-desc">Ingresa desde cualquier navegador con tus credenciales de acceso. Sin instalaciones, sin configuraciones complicadas, sin formularios de registro. Operativo en segundos.</p>
+          <div class="pnl-tags">
+            <span class="pnl-tag">⚡ Acceso en segundos</span>
+            <span class="pnl-tag">🌐 Cualquier navegador</span>
+            <span class="pnl-tag">🔑 Credenciales listas</span>
+          </div>
+        </div>
+        <div class="pnl-vis">
+          <div class="pv-bar">
+            <div class="pv-dot" style="background:#FF5F57"></div>
+            <div class="pv-dot" style="background:#FEBC2E"></div>
+            <div class="pv-dot" style="background:#28C840"></div>
+            <div class="pv-url">erp.citemadera.pe</div>
+          </div>
+          <div class="pv-login">
+            <div class="pv-login-logo">CITE MADERA <span>ERP</span></div>
+            <div class="pv-input">admin@citemadera.pe</div>
+            <div class="pv-input" style="letter-spacing:4px;color:#1E2A38">••••••••</div>
+            <div class="pv-btn">Ingresar al sistema →</div>
+            <div class="pv-badge">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="currentColor"><circle cx="6" cy="6" r="5"/></svg>
+              Acceso inmediato · Sin registro previo
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 1: Configura -->
+      <div class="proc-panel" id="panel-1">
+        <div>
+          <div class="pnl-step">Paso 02 — Configura</div>
+          <h3 class="pnl-title">Tu empresa,<br/><em>lista en minutos.</em></h3>
+          <p class="pnl-desc">Ingresa tu razón social, RUC y los productos que fabricas o vendes. Un asistente paso a paso te guía. Sin conocimientos técnicos requeridos.</p>
+          <div class="pnl-tags">
+            <span class="pnl-tag">📋 Guía paso a paso</span>
+            <span class="pnl-tag">⏱ 5 minutos máximo</span>
+          </div>
+        </div>
+        <div class="pnl-vis">
+          <div class="pv-bar">
+            <div class="pv-dot" style="background:#FF5F57"></div>
+            <div class="pv-dot" style="background:#FEBC2E"></div>
+            <div class="pv-dot" style="background:#28C840"></div>
+            <div class="pv-url">erp.citemadera.pe/configuracion</div>
+          </div>
+          <div class="pv-body">
+            <div style="font-size:11px;font-weight:700;color:#1E2A38;margin-bottom:14px">Configura tu empresa</div>
+            <div class="pv-form-row">
+              <div class="pv-label">Razón Social</div>
+              <div class="pv-field filled">Muebles García & Hijos SAC</div>
+            </div>
+            <div class="pv-form-row">
+              <div class="pv-label">RUC</div>
+              <div class="pv-field filled">20481234567</div>
+            </div>
+            <div class="pv-form-row">
+              <div class="pv-label">Sector</div>
+              <div class="pv-field filled">Fabricación de muebles</div>
+            </div>
+            <div class="pv-submit">Guardar y continuar →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: Gestiona -->
+      <div class="proc-panel" id="panel-2">
+        <div>
+          <div class="pnl-step">Paso 03 — Gestiona</div>
+          <h3 class="pnl-title">9 módulos,<br/><em>todo conectado.</em></h3>
+          <p class="pnl-desc">Registra ventas, compras, producción, inventario y planilla desde el primer día. Los datos fluyen automáticamente entre módulos. Sin re-ingreso manual.</p>
+          <div class="pnl-tags">
+            <span class="pnl-tag">🔗 Módulos integrados</span>
+            <span class="pnl-tag">🇵🇪 100% en español</span>
+            <span class="pnl-tag">📱 Interfaz intuitiva</span>
+          </div>
+        </div>
+        <div class="pnl-vis">
+          <div class="pv-bar">
+            <div class="pv-dot" style="background:#FF5F57"></div>
+            <div class="pv-dot" style="background:#FEBC2E"></div>
+            <div class="pv-dot" style="background:#28C840"></div>
+            <div class="pv-url">erp.citemadera.pe/modulos</div>
+          </div>
+          <div class="pv-body">
+            <div style="font-size:10px;font-weight:600;color:#6B7A8D;margin-bottom:12px;letter-spacing:.5px">MÓDULOS ACTIVOS</div>
+            <div class="pv-modules">
+              <div class="pv-mod"><span class="pv-mod-ic">📊</span><div class="pv-mod-n">Dashboard</div><div class="pv-mod-s">● Activo</div></div>
+              <div class="pv-mod"><span class="pv-mod-ic">📦</span><div class="pv-mod-n">Inventario</div><div class="pv-mod-s">● Activo</div></div>
+              <div class="pv-mod"><span class="pv-mod-ic">📈</span><div class="pv-mod-n">Ventas</div><div class="pv-mod-s">● Activo</div></div>
+              <div class="pv-mod"><span class="pv-mod-ic">🛒</span><div class="pv-mod-n">Compras</div><div class="pv-mod-s">● Activo</div></div>
+              <div class="pv-mod"><span class="pv-mod-ic">⚙️</span><div class="pv-mod-n">Producción</div><div class="pv-mod-s">● Activo</div></div>
+              <div class="pv-mod"><span class="pv-mod-ic">💵</span><div class="pv-mod-n">Finanzas</div><div class="pv-mod-s">● Activo</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3: Decide -->
+      <div class="proc-panel" id="panel-3">
+        <div>
+          <div class="pnl-step">Paso 04 — Decide</div>
+          <h3 class="pnl-title">KPIs en tiempo real.<br/><em>Decide en segundos.</em></h3>
+          <p class="pnl-desc">El dashboard centraliza ventas, costos, inventario y producción en una sola pantalla. Identifica qué productos te dan más margen y dónde estás perdiendo dinero.</p>
+          <div class="pnl-tags">
+            <span class="pnl-tag">📊 KPIs automáticos</span>
+            <span class="pnl-tag">🎯 Margen real por producto</span>
+          </div>
+        </div>
+        <div class="pnl-vis">
+          <div class="pv-bar">
+            <div class="pv-dot" style="background:#FF5F57"></div>
+            <div class="pv-dot" style="background:#FEBC2E"></div>
+            <div class="pv-dot" style="background:#28C840"></div>
+            <div class="pv-url">erp.citemadera.pe/dashboard</div>
+          </div>
+          <div class="pv-body">
+            <div class="pv-kpis">
+              <div class="pv-kpi"><div class="pv-kpi-v">S/45K</div><div class="pv-kpi-l">Ventas del mes</div><div class="pv-kpi-d" style="color:#2A7250">↑ 12%</div></div>
+              <div class="pv-kpi"><div class="pv-kpi-v">34%</div><div class="pv-kpi-l">Margen bruto</div><div class="pv-kpi-d" style="color:#2A7250">↑ Meta 30%</div></div>
+              <div class="pv-kpi"><div class="pv-kpi-v">5 OPs</div><div class="pv-kpi-l">En producción</div><div class="pv-kpi-d" style="color:#C4902E">87% a tiempo</div></div>
+              <div class="pv-kpi"><div class="pv-kpi-v">3 ⚠</div><div class="pv-kpi-l">Stock bajo</div><div class="pv-kpi-d" style="color:#EF4444">Revisar</div></div>
+            </div>
+            <div class="pv-chart" id="proc-chart">
+              <div class="pv-bar-c" style="background:#E8DDD0;height:0%" data-h="50%"></div>
+              <div class="pv-bar-c" style="background:#D4C4B0;height:0%" data-h="38%"></div>
+              <div class="pv-bar-c" style="background:#C4902E;height:0%" data-h="72%"></div>
+              <div class="pv-bar-c" style="background:#C4902E;height:0%" data-h="55%"></div>
+              <div class="pv-bar-c" style="background:#9B6828;height:0%" data-h="88%"></div>
+              <div class="pv-bar-c" style="background:#C4902E;height:0%" data-h="65%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /proc-panels -->
+  </div>
+</section>
+
+<!-- ═══ MASCOT ═══ -->
+<section class="mascot-sec reveal">
+  <div class="mascot-wrap">
+    <!-- Left: dashboard mockup + quote -->
+    <div class="mascot-left">
+      <div class="mascot-eyebrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        Así lo ven nuestros usuarios
+      </div>
+      <h2 class="mascot-title">Tu negocio,<br/><em>bajo control total.</em></h2>
+
+      <!-- Browser mockup -->
+      <div class="mock-browser">
+        <div class="mock-browser-bar">
+          <div class="mock-browser-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="mock-browser-url">erp.citemadera.pe/dashboard</div>
+          <div class="mock-browser-status">En línea</div>
+        </div>
+        <div class="mock-browser-body">
+          <div class="mock-section-title">Resumen del mes <span>Marzo 2026</span></div>
+          <div class="mock-kpi-row">
+            <div class="mock-kpi">
+              <div class="mock-kpi-val">S/45K</div>
+              <div class="mock-kpi-label">Ventas</div>
+              <div class="mock-kpi-delta">↑ 12%</div>
+            </div>
+            <div class="mock-kpi">
+              <div class="mock-kpi-val">87%</div>
+              <div class="mock-kpi-label">A tiempo</div>
+              <div class="mock-kpi-delta">↑ 8%</div>
+            </div>
+            <div class="mock-kpi">
+              <div class="mock-kpi-val">5 OPs</div>
+              <div class="mock-kpi-label">Producción</div>
+              <div class="mock-kpi-delta warn">En proceso</div>
+            </div>
+            <div class="mock-kpi">
+              <div class="mock-kpi-val">3 ▲</div>
+              <div class="mock-kpi-label">Stock bajo</div>
+              <div class="mock-kpi-delta alert">Revisar</div>
+            </div>
+          </div>
+          <div class="mock-chart-area">
+            <div class="mock-chart-label">
+              <span>Ventas — Últimos 6 meses</span>
+              <b>+18% vs año anterior</b>
+            </div>
+            <div class="mock-bars">
+              <div class="mock-bar" style="height:38%;background:#D4C5A9"></div>
+              <div class="mock-bar" style="height:50%;background:#C9B99A"></div>
+              <div class="mock-bar" style="height:62%;background:#C4902E;opacity:.6"></div>
+              <div class="mock-bar" style="height:72%;background:#C4902E;opacity:.75"></div>
+              <div class="mock-bar" style="height:88%;background:#C4902E"></div>
+              <div class="mock-bar" style="height:78%;background:#C4902E;opacity:.85"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating badge + quote -->
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:20px">
+        <div class="mock-badge">
+          <div class="mock-badge-dot"></div>
+          <div>
+            <div class="mock-badge-text">Sistema en línea</div>
+            <div class="mock-badge-sub">Actualizado hace 2 min</div>
+          </div>
+        </div>
+        <div class="mascot-quote">
+          <div class="mascot-quote-text">"Antes usaba cuadernos. Ahora sé exactamente cuánto gano en cada mueble."</div>
+          <div class="mascot-quote-name">Pedro R. · Carpintero, Trujillo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: character -->
+    <div class="mascot-char">
+      <img src="img/cuerpo_mitad_izqader.png" alt="Maestro carpintero aprobando el sistema ERP"/>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ═══ COMPARATIVA ═══ -->
+<section class="sec" style="background:var(--bg2);padding-top:60px">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center;margin-bottom:0">
+      <div class="eyebrow" style="justify-content:center">Antes vs Después</div>
+      <h2 class="display-title" style="text-align:center">¿Qué cambia con<br/><em>CITE Madera ERP?</em></h2>
+    </div>
+    <div class="compare-wrap reveal">
+      <div class="cmp-card bad">
+        <div class="cmp-head">
+          <div class="cmp-ico" style="background:#FEF2F2">❌</div>
+          <span class="cmp-title">Sin un ERP</span>
+        </div>
+        <ul class="cmp-list">
+          <li><b style="color:#EF4444">✗</b>Excel desactualizados y errores de cálculo</li>
+          <li><b style="color:#EF4444">✗</b>No sabes cuánto ganas por producto vendido</li>
+          <li><b style="color:#EF4444">✗</b>Te quedas sin stock sin ningún aviso</li>
+          <li><b style="color:#EF4444">✗</b>Cotizaciones y facturas hechas a mano</li>
+          <li><b style="color:#EF4444">✗</b>Sin historial ni datos para tomar decisiones</li>
+          <li><b style="color:#EF4444">✗</b>Planilla calculada manualmente cada mes</li>
+        </ul>
+      </div>
+      <div class="cmp-card good">
+        <div class="cmp-head">
+          <div class="cmp-ico" style="background:#EDFAF3">🪵</div>
+          <div>
+            <span class="cmp-title">Con CITE Madera ERP</span>
+            <div style="font-size:11px;font-weight:600;color:var(--green);margin-top:2px">100% Gratuito</div>
+          </div>
+        </div>
+        <ul class="cmp-list">
+          <li><b style="color:var(--green)">✓</b>Datos centralizados, siempre actualizados</li>
+          <li><b style="color:var(--green)">✓</b>Margen real por producto con semáforo visual</li>
+          <li><b style="color:var(--green)">✓</b>Alertas automáticas de stock mínimo</li>
+          <li><b style="color:var(--green)">✓</b>Cotizaciones y facturas con IGV en segundos</li>
+          <li><b style="color:var(--green)">✓</b>Dashboard con KPIs para decidir al instante</li>
+          <li><b style="color:var(--green)">✓</b>Planilla automática con boletas digitales</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ═══ FAQ ═══ -->
+<section id="faq" class="faq-section">
+  <div class="wrap" style="position:relative;z-index:1">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow" style="justify-content:center">Preguntas frecuentes</div>
+      <h2 class="display-title" style="text-align:center">Todo lo que<br/><em>necesitas saber</em></h2>
+    </div>
+
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>¿El sistema es realmente gratis para siempre?</span>
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">Sí, completamente. El CITE Madera ERP es desarrollado y financiado por el Estado Peruano a través del ITP (Instituto Tecnológico de la Producción). No hay versión premium, no hay suscripción, no hay costos ocultos. Es gratis hoy, mañana y siempre.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>¿Necesito instalar algo en mi computadora?</span>
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">No. El sistema corre 100% en el navegador web. Compatible con Chrome, Firefox, Edge y Safari. Funciona en PC, laptop o tablet sin necesidad de instalar software adicional.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>¿Qué tipos de empresas pueden usarlo?</span>
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">Está diseñado específicamente para MYPE peruanas del sector madera y mueblería: fabricantes de muebles, distribuidoras de madera, talleres de carpintería industrial y comercializadores de productos derivados de madera.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>¿Mis datos y los de mi empresa están seguros?</span>
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">Sí. Los datos se almacenan localmente en tu dispositivo mediante tecnología de sesión segura. No enviamos información a terceros ni vendemos datos. Tu información es tuya.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>¿Pueden acceder varios usuarios al mismo tiempo?</span>
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">El sistema soporta múltiples roles de usuario: Administrador, Vendedor, Almacenero y Contador. Cada uno tiene permisos configurables para acceder solo a las áreas que necesita.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>¿Qué pasa si no tengo conocimientos de sistemas?</span>
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">El ERP está diseñado para ser intuitivo. La interfaz es en español, con iconos claros y flujos de trabajo paso a paso. Además, el CITE Madera y del Mueble ofrece capacitación presencial y virtual gratuita para empresas de todo el Perú.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>¿El sistema funciona en celular?</span>
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">El sistema está optimizado para uso en computadoras y laptops. En dispositivos móviles funciona con funcionalidad básica. Para una experiencia completa recomendamos usarlo en pantallas de 10 pulgadas o más.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>¿Cómo obtengo soporte técnico?</span>
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">Puedes contactar al equipo de CITE Madera y del Mueble a través de los canales oficiales del ITP. El soporte técnico es gratuito para todas las empresas registradas a nivel nacional.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ═══ GRATIS ═══ -->
+<section id="gratis" class="free-section">
+  <div class="wrap" style="position:relative;z-index:1">
+    <div class="free-grid">
+
+      <!-- LEFT: Text -->
+      <div class="free-left reveal">
+        <div class="free-badge-top">Financiado por el Estado Peruano</div>
+        <div class="free-display">Cero<br/><em>soles.</em></div>
+        <p class="free-sub-line">Permanentemente. Sin letra chica. Sin sorpresas.</p>
+
+        <div class="free-pills2">
+          <span class="fp2"><span class="fp2-check">✓</span> Sin suscripción ni plan premium</span>
+          <span class="fp2"><span class="fp2-check">✓</span> Sin tarjeta de crédito</span>
+          <span class="fp2"><span class="fp2-check">✓</span> 9 módulos completos y sin límites</span>
+          <span class="fp2"><span class="fp2-check">✓</span> Sin publicidad ni venta de datos</span>
+          <span class="fp2"><span class="fp2-check">✓</span> Actualizaciones incluidas siempre</span>
+        </div>
+
+        <p class="free-why-brief">El <strong>CITE Madera y del Mueble</strong> es una institución del Estado Peruano (ITP) dedicada a potenciar la competitividad de las MYPE de madera y mueblería a nivel nacional. Este ERP es nuestra inversión en tu empresa.</p>
+
+        <div class="free-cta-row">
+          <a href="../erp-sistema/index.html" class="btn-free-main">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Acceder gratis ahora
+          </a>
+          <a href="#proceso" class="btn-free-ghost">Ver cómo funciona →</a>
+        </div>
+      </div>
+
+      <!-- RIGHT: Entrepreneur photo composition -->
+      <div class="free-right reveal">
+
+        <!-- Photo -->
+        <div class="emp-photo-wrap">
+          <img class="emp-photo-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=85" alt="Emprendedor del sector madera y muebles"/>
+          <div class="emp-photo-overlay"></div>
+          <div class="emp-stamp">
+            <img src="img/logo-itp.svg" alt="ITP" style="height:28px;width:auto;filter:brightness(2) grayscale(1)"/>
+            <div>
+              <div class="emp-stamp-t">Respaldado por</div>
+              <div class="emp-stamp-n">CITE Madera y del Mueble</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating quote badge -->
+        <div class="emp-quote">
+          <p class="emp-quote-text">"Mis pedidos y costos ahora los tengo bajo control, todo en un solo lugar."</p>
+          <div class="emp-quote-name">— Luis García, Muebles García SAC</div>
+        </div>
+
+        <!-- Floating CSS system screenshot -->
+        <div class="emp-screen">
+          <div class="emp-screen-bar" style="display:flex;align-items:center;gap:4px">
+            <div style="width:8px;height:8px;border-radius:50%;background:#FF5F57"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:#FEBC2E"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:#28C840"></div>
+            <div style="flex:1;background:white;border-radius:4px;padding:3px 8px;font-size:8.5px;color:#9E8E7E;font-family:monospace;margin-left:6px">erp.citemadera.pe</div>
+          </div>
+          <div class="emp-screen-body">
+            <div class="emp-screen-kpis">
+              <div class="emp-skpi">
+                <div class="emp-skpi-v">S/45K</div>
+                <div class="emp-skpi-l">Ventas del mes</div>
+                <div class="emp-skpi-d" style="color:#2A7250">↑ 12%</div>
+              </div>
+              <div class="emp-skpi">
+                <div class="emp-skpi-v">34%</div>
+                <div class="emp-skpi-l">Margen bruto</div>
+                <div class="emp-skpi-d" style="color:#2A7250">↑ Meta 30%</div>
+              </div>
+            </div>
+            <div class="emp-screen-chart">
+              <div class="emp-sbar" style="background:#E8DDD0;height:50%"></div>
+              <div class="emp-sbar" style="background:#D4C4B0;height:38%"></div>
+              <div class="emp-sbar" style="background:#C4902E;height:72%"></div>
+              <div class="emp-sbar" style="background:#C4902E;height:55%"></div>
+              <div class="emp-sbar" style="background:#9B6828;height:88%"></div>
+              <div class="emp-sbar" style="background:#C4902E;height:65%"></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /free-right -->
+    </div><!-- /free-grid -->
+  </div>
+</section>
+
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div style="width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-size:18px">🪵</div>
+      <div class="footer-brand">CITE MADERA <span>ERP</span></div>
+      <p class="footer-desc">El sistema ERP diseñado para la industria de la madera y mueblería del Perú. Desarrollado por el CITE Madera y del Mueble — ITP. 100% gratuito para todas las MYPE peruanas.</p>
+      <div class="f-social">
+        <a href="https://facebook.com/citemadera" target="_blank" class="f-soc-btn" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+        <a href="https://instagram.com/citemadera" target="_blank" class="f-soc-btn" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+        <a href="https://youtube.com/@citemadera" target="_blank" class="f-soc-btn" title="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        <a href="https://linkedin.com/company/citemadera" target="_blank" class="f-soc-btn" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a href="https://tiktok.com/@citemadera" target="_blank" class="f-soc-btn" title="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <div class="f-col-title">Sistema ERP</div>
+      <ul class="f-links">
+        <li><a href="#proceso">Cómo funciona</a></li>
+        <li><a href="#features">Funciones</a></li>
+        <li><a href="#modulos">Módulos</a></li>
+        <li><a href="../erp-sistema/index.html">Acceder al ERP</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="f-col-title">Institución</div>
+      <ul class="f-links">
+        <li><a href="https://www.itp.gob.pe" target="_blank" rel="noopener">ITP — Inst. Tecnológico</a></li>
+        <li><a href="https://www.citemadera.gob.pe" target="_blank" rel="noopener">CITE Madera y del Mueble</a></li>
+        <li><a href="#gratis">Por qué es gratuito</a></li>
+        <li><a href="#faq">Preguntas frecuentes</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="f-col-title">Contacto</div>
+      <ul class="f-links">
+        <li><a href="#">Av. España 2010, Trujillo</a></li>
+        <li><a href="tel:044290100">044-290100</a></li>
+        <li><a href="mailto:erp@citemadera.gob.pe">erp@citemadera.gob.pe</a></li>
+        <li><a href="https://wa.me/51044290100" target="_blank">WhatsApp</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- Logos strip inside footer -->
+  <div style="max-width:1200px;margin:40px auto 0;padding:28px 48px 0;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:28px;flex-wrap:wrap">
+    <span style="font-size:10px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:rgba(250,248,245,.28)">Auspiciado por</span>
+    <img src="img/logo-cite-madera.svg" alt="CITE Madera y del Mueble" style="height:38px;width:auto;opacity:.7;filter:brightness(1.6)"/>
+    <img src="img/logo-itp.svg" alt="ITP" style="height:34px;width:auto;opacity:.65;filter:brightness(2) grayscale(1)"/>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="f-copy">© 2026 CITE Madera y del Mueble — ITP. Todos los derechos reservados.</p>
+    <div class="f-legal">
+      <a href="#">Privacidad</a>
+      <a href="#">Términos</a>
+      <a href="#">Accesibilidad</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// ── HERO ENTRANCE (directo, sin preloader) ──
+const nav = document.getElementById('nav');
+const tl  = gsap.timeline({ defaults: { ease: 'power3.out' } });
+tl.to(nav,                     { opacity:1, duration:.5 }, .08)
+  .from('.hero-target-badge', { y:24, opacity:0, duration:.55 }, .15)
+  .from('.hero-free-badge',   { y:18, opacity:0, duration:.5 }, .25)
+  .from('.hero-title .word',  { y:64, opacity:0, stagger:.045, duration:.72 }, .32)
+  .from('.hero-sub',        { y:22, opacity:0, duration:.52 }, .55)
+  .from('.hero-actions',    { y:16, opacity:0, duration:.42 }, .65)
+  .from('.hero-trust',      { opacity:0, duration:.4 }, .75)
+  .to('#hero-visual',       { opacity:1, duration:.9 }, .4);
+
+// Animate hero bars on load
+window.addEventListener('load', () => {
+  document.querySelectorAll('#hero-bars .s-bar').forEach((b, i) => {
+    gsap.to(b, { height: b.dataset.h + '%', duration:1.2, ease:'power3.out', delay: .9 + i*.1 });
+  });
+});
+
+// ── NAV SCROLL ──────────────────────────────
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── SCROLL REVEALS ──────────────────────────
+gsap.utils.toArray('.reveal').forEach((el, i) => {
+  gsap.fromTo(el,
+    { y: 44, opacity: 0 },
+    { y: 0, opacity: 1, duration: .85, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+    }
+  );
+});
+
+// ── PROCESS STEPS ───────────────────────────
+gsap.utils.toArray('.p-step').forEach((step, i) => {
+  gsap.fromTo(step,
+    { y: 32, opacity: 0 },
+    { y: 0, opacity: 1, duration: .65, ease: 'power3.out', delay: i * .12,
+      scrollTrigger: { trigger: '.process-grid', start: 'top 82%' }
+    }
+  );
+});
+
+// ── FEATURE BLOCKS ──────────────────────────
+gsap.utils.toArray('.feature-block').forEach((block, i) => {
+  const children = block.children;
+  gsap.fromTo(children[0],
+    { x: block.classList.contains('reverse') ? 40 : -40, opacity: 0 },
+    { x: 0, opacity: 1, duration: .85, ease: 'power3.out',
+      scrollTrigger: { trigger: block, start: 'top 80%' }
+    }
+  );
+  gsap.fromTo(children[1],
+    { x: block.classList.contains('reverse') ? -40 : 40, opacity: 0 },
+    { x: 0, opacity: 1, duration: .85, ease: 'power3.out', delay: .1,
+      scrollTrigger: { trigger: block, start: 'top 80%' }
+    }
+  );
+});
+
+// ── KPI BARS (Costs feature) ─────────────────
+ScrollTrigger.create({
+  trigger: '#kpi-bars',
+  start: 'top 80%',
+  onEnter: () => {
+    document.querySelectorAll('.kpi-fill').forEach(bar => {
+      const w = bar.dataset.w + '%';
+      gsap.to(bar, { width: w, duration: 1.4, ease: 'power3.out' });
+    });
+  },
+  once: true
+});
+
+// ── MODULES GRID ────────────────────────────
+gsap.utils.toArray('.mod-card').forEach((card, i) => {
+  gsap.fromTo(card,
+    { y: 24, opacity: 0 },
+    { y: 0, opacity: 1, duration: .55, ease: 'power3.out', delay: i * .06,
+      scrollTrigger: { trigger: '.modules-grid', start: 'top 85%' }
+    }
+  );
+});
+
+// ── STATS COUNT-UP ───────────────────────────
+gsap.utils.toArray('.stat-num[data-target]').forEach(el => {
+  const target = parseInt(el.dataset.target);
+  const prefix = el.dataset.prefix || '';
+  const suffix = el.dataset.suffix || '';
+  ScrollTrigger.create({
+    trigger: el, start: 'top 80%', once: true,
+    onEnter: () => {
+      if (target === 0) return;
+      const obj = { val: 0 };
+      gsap.to(obj, {
+        val: target, duration: 1.8, ease: 'power2.out',
+        onUpdate() { el.textContent = prefix + Math.round(obj.val) + suffix; }
+      });
+    }
+  });
+});
+
+// ── COMPARE ─────────────────────────────────
+gsap.utils.toArray('.cmp-card').forEach((card, i) => {
+  gsap.fromTo(card,
+    { y: 30, opacity: 0 },
+    { y: 0, opacity: 1, duration: .75, ease: 'power3.out', delay: i * .15,
+      scrollTrigger: { trigger: '.compare-wrap', start: 'top 82%' }
+    }
+  );
+});
+
+
+// ── FLOATING CARDS PARALLAX ──────────────────
+window.addEventListener('mousemove', (e) => {
+  const x = (e.clientX / window.innerWidth - .5) * 30;
+  const y = (e.clientY / window.innerHeight - .5) * 20;
+  gsap.to('.float-card', { x, y, duration: 1.4, ease: 'power2.out', stagger: .08 });
+  gsap.to('.hero-carp-wrap', { x: x * .25, y: y * .15, duration: 2, ease: 'power2.out' });
+});
+
+// ── GEOMETRIC SHAPES FLOAT ──────────────────
+gsap.to('.deco-ring-1', {
+  rotation: 360, duration: 60, repeat: -1, ease: 'none'
+});
+gsap.to('.deco-ring-2', {
+  rotation: -360, duration: 90, repeat: -1, ease: 'none'
+});
+
+// ── MODULE CARDS STAGGER ────────────────────
+gsap.utils.toArray('.mshow-card').forEach((card, i) => {
+  gsap.fromTo(card,
+    { y: 40, opacity: 0 },
+    { y: 0, opacity: 1, duration: .6, ease: 'power3.out', delay: i * .07,
+      scrollTrigger: { trigger: '.mshow-grid', start: 'top 82%' }
+    }
+  );
+});
+
+// ── FAQ ITEMS ───────────────────────────────
+gsap.utils.toArray('.faq-item').forEach((item, i) => {
+  gsap.fromTo(item,
+    { x: -24, opacity: 0 },
+    { x: 0, opacity: 1, duration: .55, ease: 'power3.out', delay: i * .06,
+      scrollTrigger: { trigger: '.faq-list', start: 'top 82%' }
+    }
+  );
+});
+
+// ── PARALLAX ON DECO CIRCLES ────────────────
+window.addEventListener('scroll', () => {
+  const sy = window.scrollY;
+  document.querySelectorAll('.deco-circle').forEach((el, i) => {
+    const speed = (i % 2 === 0) ? .08 : .05;
+    el.style.transform = 'translateY(' + (sy * speed) + 'px)';
+  });
+});
+
+// ── FAQ ACCORDION ────────────────────────────
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+// ── PROCESO TAB SWITCHER ─────────────────────
+(function() {
+  const tabs   = document.querySelectorAll('.proc-tab');
+  const panels = document.querySelectorAll('.proc-panel');
+  const conns  = document.querySelectorAll('.proc-conn');
+  let current  = 0;
+  let autoTimer = null;
+
+  function resetRing(tab) {
+    // Force re-trigger CSS animation by removing and re-adding active
+    const circle = tab.querySelector('.pt-ring circle');
+    if (!circle) return;
+    circle.style.transition = 'none';
+    circle.style.strokeDashoffset = '176';
+    // Force reflow
+    circle.getBoundingClientRect();
+    circle.style.transition = '';
+  }
+
+  function goTo(next) {
+    if (next === current) return;
+    const dir = next > current ? 1 : -1;
+    const outPanel = panels[current];
+    const inPanel  = panels[next];
+
+    // Animate out
+    gsap.to(outPanel, {
+      opacity: 0, x: dir * -50, duration: .38, ease: 'power2.in',
+      onComplete() {
+        outPanel.classList.remove('active');
+
+        // Update tab states
+        tabs[current].classList.remove('active');
+        if (dir > 0) {
+          for (let i = current; i < next; i++) {
+            tabs[i].classList.add('done');
+            if (conns[i]) conns[i].classList.add('done');
+          }
+        } else {
+          for (let i = next; i < current; i++) {
+            tabs[i].classList.remove('done');
+            if (conns[i]) conns[i].classList.remove('done');
+          }
+        }
+        current = next;
+        tabs[current].classList.remove('done');
+        tabs[current].classList.add('active');
+        resetRing(tabs[current]);
+
+        // Animate in
+        inPanel.classList.add('active');
+        gsap.fromTo(inPanel,
+          { opacity: 0, x: dir * 50 },
+          { opacity: 1, x: 0, duration: .52, ease: 'power3.out' }
+        );
+
+        // Animate chart bars when panel 3 activates
+        if (current === 3) {
+          document.querySelectorAll('#proc-chart .pv-bar-c').forEach((b, i) => {
+            gsap.to(b, { height: b.dataset.h, duration: 1, ease: 'power3.out', delay: i * .08 });
+          });
+        }
+      }
+    });
+  }
+
+  function startAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => {
+      goTo((current + 1) % tabs.length);
+    }, 4200);
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const step = parseInt(tab.dataset.step);
+      clearInterval(autoTimer);
+      goTo(step);
+      startAuto();
+    });
+  });
+
+  // Start when section scrolls into view
+  ScrollTrigger.create({
+    trigger: '#proceso',
+    start: 'top 70%',
+    once: true,
+    onEnter: () => {
+      // Animate tabs in
+      gsap.fromTo(tabs,
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: .6, ease: 'power3.out', stagger: .1 }
+      );
+      // Animate first panel in
+      gsap.fromTo(panels[0],
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: .7, ease: 'power3.out', delay: .4,
+          onComplete: startAuto }
+      );
+    }
+  });
+})();
+
+// ── FREE SECTION REVEALS ──────────────────────
+gsap.fromTo('.free-display',
+  { y: 40, opacity: 0 },
+  { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out',
+    scrollTrigger: { trigger: '.free-display', start: 'top 82%' }
+  }
+);
+gsap.fromTo('.emp-photo-wrap',
+  { x: 40, opacity: 0 },
+  { x: 0, opacity: 1, duration: 1, ease: 'power3.out',
+    scrollTrigger: { trigger: '.free-right', start: 'top 80%' }
+  }
+);
+gsap.fromTo('.emp-quote',
+  { y: -20, opacity: 0 },
+  { y: 0, opacity: 1, duration: .7, ease: 'back.out(1.5)', delay: .4,
+    scrollTrigger: { trigger: '.free-right', start: 'top 80%' }
+  }
+);
+gsap.fromTo('.emp-screen',
+  { y: 30, opacity: 0 },
+  { y: 0, opacity: 1, duration: .8, ease: 'power3.out', delay: .6,
+    scrollTrigger: { trigger: '.free-right', start: 'top 80%' }
+  }
+);
+gsap.utils.toArray('.fp2').forEach((pill, i) => {
+  gsap.fromTo(pill,
+    { x: -16, opacity: 0 },
+    { x: 0, opacity: 1, duration: .45, delay: i * .07, ease: 'power2.out',
+      scrollTrigger: { trigger: '.free-pills2', start: 'top 85%' }
+    }
+  );
+});
+
+// ── HAMBURGER ────────────────────────────────
+(function() {
+  const hamburger   = document.getElementById('nav-hamburger');
+  const navMobile   = document.getElementById('nav-mobile');
+  const mobileClose = document.getElementById('nav-mobile-close');
+  if (!hamburger) return;
+  function openMenu() {
+    navMobile.classList.add('open');
+    hamburger.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    navMobile.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', () => {
+    navMobile.classList.contains('open') ? closeMenu() : openMenu();
+  });
+  mobileClose.addEventListener('click', closeMenu);
+  navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+})();
+</script>
+</body>
+</html>
