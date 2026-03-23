@@ -1013,7 +1013,7 @@
       <p class="hero-sub">Olvídate de los cuadernos. Organiza tu producción, controla tu stock y mantén tus finanzas en orden — desde cualquier dispositivo, sin complicaciones ni costos.</p>
 
       <div class="hero-actions">
-        <a href="../erp-sistema/index.html" class="btn-hero-primary">
+        <a href="javascript:void(0)" onclick="openReg()" class="btn-hero-primary">
           <span class="btn-hero-primary-inner">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
             Emprende con orden — Accede gratis
@@ -1500,7 +1500,7 @@
           <li><b style="color:var(--green)">✓</b>Planilla automática con boletas digitales</li>
         </ul>
         <div style="margin-top:24px;padding-top:18px;border-top:1px solid rgba(42,114,80,.12);text-align:center">
-          <a href="../erp-sistema/index.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 24px;background:var(--green);color:white;font-size:13px;font-weight:700;border-radius:50px;text-decoration:none;transition:all .3s;box-shadow:0 4px 16px rgba(42,114,80,.25)">
+          <a href="javascript:void(0)" onclick="openReg()" style="display:inline-flex;align-items:center;gap:8px;padding:10px 24px;background:var(--green);color:white;font-size:13px;font-weight:700;border-radius:50px;text-decoration:none;transition:all .3s;box-shadow:0 4px 16px rgba(42,114,80,.25);cursor:pointer">
             Empezar ahora — Es gratis →
           </a>
         </div>
@@ -1625,7 +1625,7 @@
         <p class="free-why-brief">El <strong>CITE Madera y del Mueble</strong> es una institución del Estado Peruano (ITP) dedicada a potenciar la competitividad de las MYPE de madera y mueblería a nivel nacional. Este ERP es nuestra inversión en tu empresa.</p>
 
         <div class="free-cta-row">
-          <a href="../erp-sistema/index.html" class="btn-free-main">
+          <a href="javascript:void(0)" onclick="openReg()" class="btn-free-main">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
             Acceder gratis ahora
           </a>
@@ -1946,5 +1946,115 @@ gsap.utils.toArray('.fp2').forEach((pill, i) => {
 })();
 }); // DOMContentLoaded
 </script>
+
+<!-- ═══ MODAL REGISTRO ═══ -->
+<div id="reg-modal" style="display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center">
+  <div id="reg-backdrop" style="position:absolute;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)" onclick="closeReg()"></div>
+  <div id="reg-card" style="position:relative;background:var(--bg);border-radius:24px;box-shadow:0 24px 80px rgba(0,0,0,.18);max-width:500px;width:calc(100% - 32px);max-height:90vh;overflow-y:auto;transform:translateY(20px) scale(.97);opacity:0;transition:all .4s cubic-bezier(.16,1,.3,1)">
+    <div style="padding:28px 32px 0;display:flex;align-items:flex-start;justify-content:space-between">
+      <div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:800;color:#0a1220;letter-spacing:-.02em">Solicita acceso gratuito</h3>
+        <p style="font-size:13px;color:var(--muted);margin-top:4px">Completa tus datos para acceder al sistema ERP</p>
+      </div>
+      <button onclick="closeReg()" style="width:32px;height:32px;border-radius:50%;border:none;background:rgba(0,0,0,.04);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .2s;flex-shrink:0" onmouseover="this.style.background='rgba(0,0,0,.08)'" onmouseout="this.style.background='rgba(0,0,0,.04)'">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <form id="reg-form" style="padding:24px 32px 32px" onsubmit="return submitReg(event)">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div>
+          <label style="display:block;font-size:12px;font-weight:600;color:var(--dark);margin-bottom:6px">Nombre completo *</label>
+          <input type="text" name="nombre" required placeholder="Juan Pérez" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:inherit;background:var(--bg);transition:border-color .2s;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"/>
+        </div>
+        <div>
+          <label style="display:block;font-size:12px;font-weight:600;color:var(--dark);margin-bottom:6px">Teléfono *</label>
+          <input type="tel" name="telefono" required placeholder="999 999 999" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:inherit;background:var(--bg);transition:border-color .2s;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"/>
+        </div>
+      </div>
+      <div style="margin-top:14px">
+        <label style="display:block;font-size:12px;font-weight:600;color:var(--dark);margin-bottom:6px">Correo electrónico *</label>
+        <input type="email" name="email" required placeholder="correo@empresa.pe" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:inherit;background:var(--bg);transition:border-color .2s;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"/>
+      </div>
+      <div style="margin-top:14px">
+        <label style="display:block;font-size:12px;font-weight:600;color:var(--dark);margin-bottom:6px">Nombre de la empresa *</label>
+        <input type="text" name="empresa" required placeholder="Mueblería San Martín SAC" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:inherit;background:var(--bg);transition:border-color .2s;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
+        <div>
+          <label style="display:block;font-size:12px;font-weight:600;color:var(--dark);margin-bottom:6px">RUC</label>
+          <input type="text" name="ruc" placeholder="20XXXXXXXXX" maxlength="11" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:inherit;background:var(--bg);transition:border-color .2s;outline:none" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'"/>
+        </div>
+        <div>
+          <label style="display:block;font-size:12px;font-weight:600;color:var(--dark);margin-bottom:6px">Tipo de negocio *</label>
+          <select name="tipo" required style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:inherit;background:var(--bg);color:var(--dark);transition:border-color .2s;outline:none;cursor:pointer" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+            <option value="">Seleccionar...</option>
+            <option value="carpinteria">Taller de carpintería</option>
+            <option value="fabrica">Fábrica de muebles</option>
+            <option value="distribuidora">Distribuidora de madera</option>
+            <option value="comercio">Comercio de muebles</option>
+            <option value="otro">Otro</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top:14px">
+        <label style="display:block;font-size:12px;font-weight:600;color:var(--dark);margin-bottom:6px">Cantidad de empleados</label>
+        <select name="empleados" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:inherit;background:var(--bg);color:var(--dark);outline:none;cursor:pointer">
+          <option value="1-5">1 a 5 empleados</option>
+          <option value="6-15">6 a 15 empleados</option>
+          <option value="16-50">16 a 50 empleados</option>
+          <option value="50+">Más de 50</option>
+        </select>
+      </div>
+      <button type="submit" id="reg-btn" class="btn-hero-primary" style="width:100%;margin-top:22px;justify-content:center">
+        <span class="btn-hero-primary-inner">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          Solicitar acceso gratuito
+          <span class="btn-hero-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </span>
+      </button>
+      <p style="font-size:10px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.5">Al solicitar acceso aceptas que CITE MADERA y del Mueble (ITP) gestione tus datos para brindarte acceso al sistema.</p>
+    </form>
+    <div id="reg-success" style="display:none;padding:40px 32px;text-align:center">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(42,114,80,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px"><svg width="28" height="28" stroke="var(--green)" fill="none" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--dark)">Registro exitoso</h3>
+      <p style="font-size:14px;color:var(--muted);margin-top:8px;line-height:1.6">Tu solicitud ha sido registrada.<br/>Ahora puedes acceder al sistema ERP.</p>
+      <a href="../erp-sistema/login.html" class="btn-hero-primary" style="margin-top:20px;display:inline-flex">
+        <span class="btn-hero-primary-inner">Ir al sistema ERP <span class="btn-hero-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></span>
+      </a>
+    </div>
+  </div>
+</div>
+<script>
+function openReg(){
+  var m=document.getElementById('reg-modal'),c=document.getElementById('reg-card');
+  m.style.display='flex';
+  document.getElementById('reg-form').style.display='';
+  document.getElementById('reg-success').style.display='none';
+  requestAnimationFrame(function(){c.style.opacity='1';c.style.transform='translateY(0) scale(1)'});
+}
+function closeReg(){
+  var c=document.getElementById('reg-card');
+  c.style.opacity='0';c.style.transform='translateY(20px) scale(.97)';
+  setTimeout(function(){document.getElementById('reg-modal').style.display='none'},300);
+}
+function submitReg(e){
+  e.preventDefault();
+  var btn=document.getElementById('reg-btn');
+  btn.innerHTML='<span class="btn-hero-primary-inner"><span style="display:inline-block;width:18px;height:18px;border:2.5px solid currentColor;border-top-color:transparent;border-radius:50%;animation:regspin 1s linear infinite"></span> Procesando...</span>';
+  btn.disabled=true;
+  setTimeout(function(){
+    document.getElementById('reg-form').style.display='none';
+    document.getElementById('reg-success').style.display='block';
+    var fd=new FormData(document.getElementById('reg-form'));
+    var data={};fd.forEach(function(v,k){data[k]=v});
+    try{localStorage.setItem('erp_registro',JSON.stringify(data))}catch(ex){}
+    btn.innerHTML='<span class="btn-hero-primary-inner">Solicitar acceso gratuito</span>';
+    btn.disabled=false;
+  },1500);
+  return false;
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeReg()});
+</script>
+<style>@keyframes regspin{to{transform:rotate(360deg)}}</style>
 </body>
 </html>
